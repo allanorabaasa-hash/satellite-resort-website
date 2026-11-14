@@ -50,7 +50,7 @@ satellite-resort-website/
 
 ## Custom module: Satellite Stays
 
-Three related MySQL tables (prefix `wp_ss_`):
+Four related MySQL tables (prefix `wp_ss_`):
 
 ```
 accommodation_types (id, name, description, max_guests, price_per_night, image, sort_order, is_active)
@@ -58,6 +58,8 @@ accommodation_types (id, name, description, max_guests, price_per_night, image, 
     1 ──< bookings (id, type_id → accommodation_types.id, unit_id → units.id (nullable),
                     guest_name, phone, email, check_in, check_out, adults, children,
                     channel, status, special_requests, staff_note)
+              1 ── reviews (id, booking_id → bookings.id UNIQUE, type_id → accommodation_types.id,
+                            display_name, rating 1–5, title, body, stayed_on, status)
 ```
 
 - Foreign keys: a type can't be deleted while rooms or bookings use it (`RESTRICT`); deleting a room
@@ -81,6 +83,17 @@ sends a request → room is held as `pending` → resort is emailed → staff **
 assigned automatically and the guest is emailed) → **Check in** → **Check out**. WhatsApp, phone,
 walk-in and tour-agent bookings are added by staff so the online availability stays correct.
 
+**Guest availability calendar:** the booking form shows two months for the chosen accommodation,
+read from a public, read-only REST endpoint (`/wp-json/satellite-stays/v1/availability`) that returns
+only free-room counts per night. Guests tap arrival and departure; stays that would cross a fully
+booked night are refused; the night count and price estimate update live.
+
+**Verified reviews:** when staff check a guest out, the guest is emailed a personal review link
+(staff can also send it on WhatsApp). The link carries an HMAC signature of the booking, so it can't
+be guessed or altered; only checked-out stays can review; one review per stay (`UNIQUE booking_id`);
+nothing appears until staff publish it. Published reviews show with a "Verified stay" line and an
+average rating, plus schema.org `AggregateRating` structured data for search results.
+
 **Security:** prepared statements, capability and nonce checks on every admin action, sanitised
 input and escaped output, a hidden spam trap, a per-visitor rate limit, a consent checkbox, and a
 purge tool for old guest records.
@@ -88,7 +101,8 @@ purge tool for old guest records.
 ## Website shortcodes
 
 `[ss_availability]` date search with results · `[ss_availability compact="1" action="/stay/"]` search
-box only · `[ss_rooms]` accommodation cards · `[ss_booking_form]` booking request form.
+box only · `[ss_rooms]` accommodation cards · `[ss_booking_form]` booking request form with calendar ·
+`[ss_reviews]` published reviews · `[ss_review_form]` the private review page.
 
 ## Local setup (Kali)
 
@@ -119,6 +133,7 @@ Upload these to the Media Library with exactly these names (the site finds them 
 
 - [x] Booking module: availability, booking requests, emails, staff calendar and workflow
 - [x] Child theme and every page design; one-click setup; 600+ word SEO article
+- [x] Guest availability calendar, verified reviews, "Plan your stay" ideas, live Kabale weather
 - [ ] Client consent, requirements meeting and lecturer approval
 - [ ] Real photos, room counts, guest limits and rates from the resort
 - [ ] Deployment to cPanel, SSL, hardening, SEO and speed tests
