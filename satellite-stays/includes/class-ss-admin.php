@@ -111,6 +111,9 @@ class SS_Admin {
 		if ( $before && $before->status !== $d['status'] && in_array( $d['status'], array( 'confirmed', 'cancelled' ), true ) ) {
 			SS_Public::email_guest( SS_DB::get_booking( $id ), $d['status'] );
 		}
+		if ( $before && 'checked_out' !== $before->status && 'checked_out' === $d['status'] ) {
+			do_action( 'ss_booking_checked_out', $id );
+		}
 		$this->back( 'ss-bookings', $id ? 'updated' : 'added' );
 	}
 
@@ -141,6 +144,10 @@ class SS_Admin {
 		$emailed = false;
 		if ( in_array( $to, array( 'confirmed', 'cancelled' ), true ) ) {
 			$emailed = SS_Public::email_guest( SS_DB::get_booking( $id ), $to );
+		}
+		if ( 'checked_out' === $to ) {
+			/** Fires when a guest is checked out (sends their review link). */
+			do_action( 'ss_booking_checked_out', $id );
 		}
 		$this->back( $page, $emailed ? 'emailed' : $to );
 	}
@@ -264,6 +271,7 @@ class SS_Admin {
 				$this->card( 'Leaving today', (int) $s->departures );
 				$this->card( 'Guests staying now', (int) $s->in_house );
 				$this->card( 'Occupied tonight', (int) $s->occupied_tonight . ' of ' . (int) $s->units );
+				$this->card( 'Reviews to check', (int) $s->reviews_waiting, (int) $s->reviews_waiting ? 'warn' : '' );
 				?>
 			</div>
 
@@ -479,6 +487,8 @@ class SS_Admin {
 			);
 		}
 		$links[] = sprintf( '<a href="%s">Edit</a>', esc_url( admin_url( 'admin.php?page=ss-bookings&action=edit&id=' . (int) $r->id ) ) );
+		/** Lets other parts of the module add actions (e.g. "Send review link"). Each item is escaped HTML. */
+		$links = (array) apply_filters( 'ss_booking_row_actions', $links, $r );
 		$links[] = sprintf(
 			'<a class="ss-delete" href="%s" onclick="return confirm(\'Delete this booking?\');">Delete</a>',
 			esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=ss_booking_delete&id=' . (int) $r->id ), 'ss_booking_delete_' . (int) $r->id ) )
@@ -689,7 +699,7 @@ class SS_Admin {
 			'no_unit'    => array( 'error', 'No free room of that kind is left for those dates, so the booking could not be confirmed.' ),
 			'confirmed'  => array( 'success', 'Booking confirmed and a room assigned.' ),
 			'checked_in' => array( 'success', 'Guest checked in.' ),
-			'checked_out' => array( 'success', 'Guest checked out.' ),
+			'checked_out' => array( 'success', 'Guest checked out. If they gave an email, their review link was sent.' ),
 			'cancelled'  => array( 'success', 'Booking cancelled. The room is free again.' ),
 			'emailed'    => array( 'success', 'Status updated and the guest was emailed.' ),
 			'saved'      => array( 'success', 'Settings saved.' ),

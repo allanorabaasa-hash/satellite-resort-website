@@ -193,3 +193,42 @@
 	.ss-cal-months { grid-template-columns: 1fr; }
 	.ss-cal-head { flex-direction: column; align-items: flex-start; }
 }
+
+/* Stars: --ss-rating from 0 to 5 */
+.ss-stars {
+	--ss-star: #e0a63a;
+	display: inline-block;
+	width: 5.6em;
+	height: 1.1em;
+	background:
+		linear-gradient(90deg, var(--ss-star) calc(var(--ss-rating, 0) / 5 * 100%), #d9ddd6 0);
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 24'%3E%3Cg%3E%3Cpath id='s' d='M12 1.8l3 6.6 7.2.7-5.4 4.8 1.6 7.1L12 17.3 5.6 21l1.6-7.1L1.8 9.1 9 8.4z'/%3E%3Cuse href='%23s' x='24'/%3E%3Cuse href='%23s' x='48'/%3E%3Cuse href='%23s' x='72'/%3E%3Cuse href='%23s' x='96'/%3E%3C/g%3E%3C/svg%3E") left center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 24'%3E%3Cg%3E%3Cpath id='s' d='M12 1.8l3 6.6 7.2.7-5.4 4.8 1.6 7.1L12 17.3 5.6 21l1.6-7.1L1.8 9.1 9 8.4z'/%3E%3Cuse href='%23s' x='24'/%3E%3Cuse href='%23s' x='48'/%3E%3Cuse href='%23s' x='72'/%3E%3Cuse href='%23s' x='96'/%3E%3C/g%3E%3C/svg%3E") left center / contain no-repeat;
+	vertical-align: -0.15em;
+}
+
+/* Reviews band [ss_reviews] */
+.ss-reviews-inner { max-width: var(--wp--style--global--wide-size, 1240px); margin: 0 auto; }
+.ss-reviews-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem 2rem; margin-bottom: 1.75rem; }
+.ss-reviews-head h2 { margin: 0; }
+.ss-reviews-score { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .6rem; margin: 0; color: var(--ss-muted); }
+.ss-reviews-score strong { color: var(--ss-deep); }
+.ss-reviews { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
+.ss-review { background: var(--ss-paper); border: 1px solid var(--ss-line); border-radius: var(--ss-radius); padding: 1.4rem 1.5rem; display: flex; flex-direction: column; gap: .5rem; }
+.ss-review h3 { margin: .25rem 0 0; font-size: 1.15rem; }
+.ss-review-body { margin: 0; color: var(--ss-muted); flex: 1; }
+.ss-review-by { margin: .5rem 0 0; padding-top: .75rem; border-top: 1px solid var(--ss-line); font-size: .92rem; color: var(--ss-deep); }
+.ss-verified { font-size: .85rem; color: var(--ss-accent); }
+.ss-verified::before { content: "✓ "; font-weight: 700; }
+
+/* Review form: star picker (radios in reverse order so CSS can light the hovered star and those before it) */
+.ss-review-stay { color: var(--ss-muted); }
+.ss-stars-input { border: 0; padding: 0; margin: 0; display: inline-flex; flex-direction: row-reverse; justify-content: flex-end; gap: .2rem; }
+.ss-stars-input legend { width: 100%; margin-bottom: .35rem; }
+.ss-stars-input input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.ss-stars-input label { cursor: pointer; width: 2.2rem; height: 2.2rem; background: #d9ddd6; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.8l3 6.6 7.2.7-5.4 4.8 1.6 7.1L12 17.3 5.6 21l1.6-7.1L1.8 9.1 9 8.4z'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.8l3 6.6 7.2.7-5.4 4.8 1.6 7.1L12 17.3 5.6 21l1.6-7.1L1.8 9.1 9 8.4z'/%3E%3C/svg%3E") center / contain no-repeat; }
+.ss-stars-input input:checked ~ label,
+.ss-stars-input label:hover,
+.ss-stars-input label:hover ~ label { background: #e0a63a; }
+.ss-stars-input input:focus-visible + label { outline: 3px solid var(--ss-accent); outline-offset: 2px; border-radius: 4px; }
+.ss-wrap .screen-reader-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
