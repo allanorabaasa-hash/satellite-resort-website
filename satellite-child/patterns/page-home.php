@@ -38,6 +38,52 @@
 </div>
 <!-- /wp:group -->
 
+<!-- wp:group {"align":"full","className":"sat-section sat-plan sat-contours","backgroundColor":"accent-3","textColor":"accent-2","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull sat-section sat-plan sat-contours has-accent-2-color has-accent-3-background-color has-text-color has-background">
+	<!-- wp:heading {"align":"wide","textColor":"accent-5"} -->
+	<h2 class="wp-block-heading alignwide has-accent-5-color has-text-color">Plan your stay</h2>
+	<!-- /wp:heading -->
+	<!-- wp:paragraph {"align":"wide","className":"sat-plan-lead"} -->
+	<p class="alignwide sat-plan-lead">Four ways guests make the most of Satellite. Pick one and we will help you shape the rest.</p>
+	<!-- /wp:paragraph -->
+	<!-- wp:group {"align":"wide","className":"sat-plans","layout":{"type":"grid","columnCount":4,"minimumColumnWidth":null}} -->
+	<div class="wp-block-group alignwide sat-plans">
+		<?php
+		foreach ( array(
+			array( 'honeymoon', 'Honeymoon', 'Quiet days for two in the hills.', array( 'A wooden cottage with garden views', 'Dinner on the terrace at sunset', 'Photos at the Tree of Life' ), 'We are planning a honeymoon. Could you help us with a cottage and a special dinner?' ),
+			array( 'family', 'Family weekend', 'Two days the children will talk about.', array( 'The guest house, room for everyone', 'Zip-line, pirate ship and kids\' park', 'An afternoon at the Great Lakes Museum' ), 'We are a family planning a weekend. Could you suggest accommodation and activities?' ),
+			array( 'stopover', 'Road-trip stopover', 'Break the drive to the lakes and forests.', array( 'Drive straight in from the Kabale–Mbarara Road', 'A hot meal and a good night\'s sleep', 'Back on the road after breakfast' ), 'We are driving through Kabale and need a room for one night.' ),
+			array( 'groups', 'Groups and school trips', 'Learning and adventure for big groups.', array( 'Group accommodation and buffets', 'A guided walk through the museum', 'The obstacle course and games' ), 'We are planning a group or school trip. Could you send us options and a quote?' ),
+		) as $plan ) :
+			?>
+		<!-- wp:group {"className":"sat-plan-card sat-plan-<?php echo esc_attr( $plan[0] ); ?>","layout":{"type":"default"}} -->
+		<div class="wp-block-group sat-plan-card sat-plan-<?php echo esc_attr( $plan[0] ); ?>">
+			<!-- wp:heading {"level":3,"textColor":"accent-5"} -->
+			<h3 class="wp-block-heading has-accent-5-color has-text-color"><?php echo esc_html( $plan[1] ); ?></h3>
+			<!-- /wp:heading -->
+			<!-- wp:paragraph -->
+			<p><?php echo esc_html( $plan[2] ); ?></p>
+			<!-- /wp:paragraph -->
+			<!-- wp:list {"className":"sat-plan-list"} -->
+			<ul class="wp-block-list sat-plan-list">
+				<?php foreach ( $plan[3] as $item ) : ?>
+				<!-- wp:list-item -->
+				<li><?php echo esc_html( $item ); ?></li>
+				<!-- /wp:list-item -->
+				<?php endforeach; ?>
+			</ul>
+			<!-- /wp:list -->
+			<!-- wp:paragraph {"className":"sat-plan-cta"} -->
+			<p class="sat-plan-cta"><a href="<?php echo esc_url( 'https://wa.me/256772448961?text=' . rawurlencode( 'Hello Satellite Holiday Resort. ' . $plan[4] ) ); ?>">Plan it with us on WhatsApp</a></p>
+			<!-- /wp:paragraph -->
+		</div>
+		<!-- /wp:group -->
+		<?php endforeach; ?>
+	</div>
+	<!-- /wp:group -->
+</div>
+<!-- /wp:group -->
+
 <!-- wp:group {"align":"full","className":"sat-section sat-stay","backgroundColor":"accent-2","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull sat-section sat-stay has-accent-2-background-color has-background">
 	<!-- wp:group {"align":"wide","className":"sat-section-head","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"}} -->
@@ -185,6 +231,10 @@
 	<!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
+
+<!-- wp:shortcode -->
+[ss_reviews class="alignfull sat-section"]
+<!-- /wp:shortcode -->
 
 <!-- wp:group {"align":"full","className":"sat-section sat-visit","backgroundColor":"accent-2","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull sat-section sat-visit has-accent-2-background-color has-background">

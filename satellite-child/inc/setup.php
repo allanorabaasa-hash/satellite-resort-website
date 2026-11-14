@@ -28,6 +28,7 @@ function sat_setup_pages() {
 		'food-and-hall'      => array( 'Food and Hall', 'satellite-child/page-food-hall' ),
 		'gallery'            => array( 'Gallery', 'satellite-child/page-gallery' ),
 		'contact'            => array( 'Contact', 'satellite-child/page-contact' ),
+		'review-your-stay'   => array( 'Review Your Stay', 'satellite-child/page-review' ),
 		'travel-notes'       => array( 'Travel Notes', '' ),
 	);
 }
@@ -297,7 +298,7 @@ function sat_setup_screen() {
 
 		<p>This builds the whole site from the theme's designs in one step:</p>
 		<ul style="list-style:disc;padding-left:1.5em">
-			<li>Creates or refreshes the pages Home, Stay, Book Your Stay, Adventure, Great Lakes Museum, Food and Hall, Gallery, Contact and Travel Notes.</li>
+			<li>Creates or refreshes the pages Home, Stay, Book Your Stay, Adventure, Great Lakes Museum, Food and Hall, Gallery, Contact, Review Your Stay and Travel Notes.</li>
 			<li>Sets Home as the homepage and Travel Notes as the blog page.</li>
 			<li>Sets the site title, tagline, time zone and "Post name" permalinks.</li>
 			<li>Moves the WordPress "Hello world!" post and "Sample Page" to the trash.</li>
