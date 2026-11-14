@@ -64,8 +64,32 @@ function sat_enqueue_assets() {
 			'in_footer' => true,
 		)
 	);
+	if ( is_front_page() ) {
+		wp_enqueue_script(
+			'sat-weather',
+			get_stylesheet_directory_uri() . '/assets/js/weather.js',
+			array(),
+			$version,
+			array(
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			)
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'sat_enqueue_assets' );
+
+/** Keep the private review page out of search engines. */
+add_filter(
+	'wp_robots',
+	function ( $robots ) {
+		if ( is_page( 'review-your-stay' ) ) {
+			$robots['noindex'] = true;
+			$robots['nofollow'] = true;
+		}
+		return $robots;
+	}
+);
 
 /**
  * Floating "Chat on WhatsApp" button on every page.
