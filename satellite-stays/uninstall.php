@@ -11,7 +11,7 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 global $wpdb;
 
-foreach ( array( 'bookings', 'units', 'accommodation_types' ) as $name ) {
+foreach ( array( 'reviews', 'bookings', 'units', 'accommodation_types' ) as $name ) {
 	$table = $wpdb->prefix . 'ss_' . $name;
 	$wpdb->query( "DROP TABLE IF EXISTS $table" ); // Built from the prefix, not user input.
 }
