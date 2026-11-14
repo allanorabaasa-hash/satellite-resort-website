@@ -1,0 +1,40 @@
+/* Satellite Stays — admin styles */
+.ss-layout { display: grid; grid-template-columns: 330px 1fr; gap: 24px; align-items: start; margin-top: 16px; }
+.ss-form { background: #fff; border: 1px solid #dcdcde; border-radius: 8px; padding: 4px 20px 20px; }
+.ss-form label { display: block; font-weight: 600; margin-bottom: 4px; }
+.ss-form input.regular-text, .ss-form select, .ss-form textarea { width: 100%; }
+.ss-list .widefat td { vertical-align: top; }
+.ss-actions { white-space: nowrap; text-align: right; }
+.ss-delete { color: #b32d2e; }
+.ss .description { max-width: 75ch; }
+
+.ss-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin: 20px 0 28px; }
+.ss-card { background: #fff; border: 1px solid #dcdcde; border-left: 4px solid #2f5d3a; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.ss-card.warn { border-left-color: #dba617; }
+.ss-card-value { font-size: 26px; font-weight: 700; line-height: 1.1; }
+.ss-card-label { color: #50575e; }
+
+.ss-badge { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.ss-st-pending     { background: #fcf3cf; color: #7a5c00; }
+.ss-st-confirmed   { background: #e4f1e3; color: #23552c; }
+.ss-st-checked_in  { background: #dfeaf7; color: #1d4e89; }
+.ss-st-checked_out { background: #eef0ee; color: #50575e; }
+.ss-st-cancelled   { background: #fbe1e1; color: #a1191a; }
+
+/* Occupancy calendar */
+.ss-cal-wrap { overflow-x: auto; background: #fff; border: 1px solid #dcdcde; border-radius: 8px; }
+.ss-cal { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 12px; }
+.ss-cal th, .ss-cal td { border: 1px solid #ececec; padding: 4px 6px; text-align: center; }
+.ss-cal thead th { background: #f6f7f7; font-weight: 400; color: #50575e; }
+.ss-cal thead th.is-weekend { background: #eef3ec; }
+.ss-cal tbody th { text-align: left; white-space: nowrap; font-weight: 600; background: #fff; min-width: 120px; }
+.ss-cal-group th { background: #f6f7f7 !important; text-transform: none; color: #1d2327; font-size: 13px; }
+.ss-cal td a { display: block; color: inherit; text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70px; }
+.ss-cal-pending    { background: #fcf3cf; color: #7a5c00; }
+.ss-cal-confirmed  { background: #cfe6cc; color: #1d4a25; }
+.ss-cal-checked_in { background: #c9dcf2; color: #1d4e89; }
+.ss-legend { margin-top: 8px; color: #50575e; }
+.ss-key { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: -2px; margin: 0 4px 0 12px; }
+.ss-key:first-child { margin-left: 0; }
+
+@media (max-width: 960px) { .ss-layout { grid-template-columns: 1fr; } }
