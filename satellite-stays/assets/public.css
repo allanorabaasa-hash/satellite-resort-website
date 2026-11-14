@@ -1,0 +1,150 @@
+/*
+ * Satellite Stays — guest-facing styles. Uses the theme's colour variables
+ * when present, with fallbacks so the module works with any theme.
+ */
+.ss-wrap {
+	--ss-accent: var(--wp--preset--color--accent-1, #2f5d3a);
+	--ss-deep: var(--wp--preset--color--accent-3, #1d2b22);
+	--ss-muted: var(--wp--preset--color--accent-4, #5d6a60);
+	--ss-line: var(--wp--preset--color--accent-6, #dcdfd4);
+	--ss-soft: var(--wp--preset--color--accent-2, #eef1e8);
+	--ss-paper: #fff;
+	--ss-radius: 14px;
+}
+
+.ss-label { display: block; font-weight: 700; font-size: .9rem; color: var(--ss-deep); margin-bottom: .35rem; }
+.ss-optional { font-weight: 400; color: var(--ss-muted); }
+.ss-help { margin: .3rem 0 0; font-size: .88rem; color: var(--ss-muted); }
+.ss-wrap input[type="date"],
+.ss-wrap input[type="number"],
+.ss-wrap input[type="text"],
+.ss-wrap input[type="tel"],
+.ss-wrap input[type="email"],
+.ss-wrap select,
+.ss-wrap textarea {
+	width: 100%;
+	box-sizing: border-box;
+	font: inherit;
+	font-size: 1rem;
+	padding: .75rem .85rem;
+	border: 1.5px solid var(--ss-line);
+	border-radius: 10px;
+	background: var(--ss-paper);
+	color: var(--ss-deep);
+}
+.ss-wrap input:focus,
+.ss-wrap select:focus,
+.ss-wrap textarea:focus { outline: none; border-color: var(--ss-accent); box-shadow: 0 0 0 3px rgba(47, 93, 58, .2); }
+
+.ss-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font: inherit;
+	font-weight: 700;
+	font-size: 1rem;
+	padding: .8rem 1.3rem;
+	border: 0;
+	border-radius: 10px;
+	background: var(--ss-accent);
+	color: #fff;
+	text-decoration: none;
+	cursor: pointer;
+	white-space: nowrap;
+}
+.ss-btn:hover { background: var(--ss-deep); color: #fff; }
+.ss-btn:focus-visible { outline: 3px solid #e0a63a; outline-offset: 2px; }
+.ss-btn-wa { background: #25d366; }
+.ss-btn-wa:hover { background: #1ebe5b; }
+.ss-btn-ghost { background: transparent; color: var(--ss-accent); border: 1.5px solid currentColor; }
+.ss-btn-ghost:hover { background: var(--ss-accent); color: #fff; }
+.ss-btn-block { width: 100%; }
+.ss-actions { display: flex; flex-wrap: wrap; gap: .6rem; }
+.ss-link { font-weight: 700; font-size: .92rem; color: var(--ss-accent); }
+
+/* Search */
+.ss-search {
+	display: grid;
+	grid-template-columns: 1fr 1fr 110px 110px auto;
+	gap: .75rem;
+	align-items: end;
+	padding: 1.1rem;
+	background: var(--ss-paper);
+	border: 1px solid var(--ss-line);
+	border-radius: var(--ss-radius);
+	box-shadow: 0 18px 40px rgba(20, 30, 22, .12);
+}
+.ss-search .ss-field-submit .ss-btn { width: 100%; padding-top: .85rem; padding-bottom: .85rem; }
+@media (max-width: 900px) {
+	.ss-search { grid-template-columns: 1fr 1fr; }
+	.ss-search .ss-field-submit { grid-column: 1 / -1; }
+}
+
+/* Results */
+.ss-results-wrap { margin-top: 2rem; }
+.ss-results-head { display: flex; flex-wrap: wrap; gap: .25rem 1rem; align-items: baseline; margin: 0 0 1rem; color: var(--ss-deep); }
+.ss-results-head span { color: var(--ss-muted); }
+.ss-results { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
+.ss-result {
+	display: grid;
+	grid-template-columns: 200px minmax(0, 1fr) 230px;
+	background: var(--ss-paper);
+	border: 1px solid var(--ss-line);
+	border-radius: var(--ss-radius);
+	overflow: hidden;
+}
+.ss-result.is-full { opacity: .72; }
+.ss-result-media { background: var(--ss-soft) center / cover no-repeat; min-height: 150px; }
+.ss-result-body { padding: 1.2rem 1.3rem; }
+.ss-result-name { margin: 0 0 .35rem; font-size: 1.25rem; }
+.ss-result-desc { margin: 0 0 .5rem; color: var(--ss-muted); font-size: .97rem; }
+.ss-result-meta { margin: 0; font-size: .9rem; color: var(--ss-deep); font-weight: 600; }
+.ss-result-side {
+	padding: 1.2rem 1.3rem;
+	border-left: 1px solid var(--ss-line);
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	gap: .6rem;
+}
+.ss-price { margin: 0; }
+.ss-price strong { display: block; font-size: 1.15rem; color: var(--ss-deep); }
+.ss-price span { font-size: .85rem; color: var(--ss-muted); }
+.ss-pill { font-size: .8rem; font-weight: 700; padding: .2em .7em; border-radius: 999px; }
+.ss-pill.is-free { background: #e4f1e3; color: #23552c; }
+.ss-pill.is-warn { background: #fbf0d6; color: #7a5600; }
+.ss-pill.is-full { background: #f6e3df; color: #8a2e1f; }
+.ss-footnote { font-size: .88rem; color: var(--ss-muted); margin-top: 1rem; }
+.ss-message { padding: 1.2rem 1.4rem; border: 1px solid var(--ss-line); border-radius: var(--ss-radius); background: var(--ss-paper); }
+@media (max-width: 760px) {
+	.ss-result { grid-template-columns: 1fr; }
+	.ss-result-media { min-height: 170px; }
+	.ss-result-side { border-left: 0; border-top: 1px solid var(--ss-line); }
+}
+
+/* Booking form */
+.ss-booking { display: grid; gap: 1.05rem; }
+.ss-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.ss-booking .ss-row + .ss-nights { margin-top: -.6rem; font-weight: 700; color: var(--ss-accent); }
+.ss-consent { display: flex; gap: .65rem; align-items: flex-start; font-size: .93rem; color: var(--ss-muted); }
+.ss-consent input { margin-top: .25rem; width: 1.1rem; height: 1.1rem; accent-color: var(--ss-accent); flex: none; }
+.ss-hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.ss-errors { border: 1px solid #f0cfc6; border-left: 4px solid #b4442c; background: #fff6f3; color: #5b2a20; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+.ss-errors p { margin: 0 0 .4rem; }
+.ss-errors ul { margin: 0; padding-left: 1.2rem; }
+.ss-success { border: 1px solid #c9dfc6; border-left: 4px solid var(--ss-accent); background: #f4faf2; border-radius: var(--ss-radius); padding: 1.5rem; }
+.ss-success h3 { margin-top: 0; }
+@media (max-width: 640px) {
+	.ss-row { grid-template-columns: 1fr; }
+}
+
+/* Accommodation cards [ss_rooms] */
+.ss-rooms { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 1.1rem; }
+.ss-room { background: var(--ss-paper); border: 1px solid var(--ss-line); border-radius: var(--ss-radius); overflow: hidden; display: flex; flex-direction: column; }
+.ss-room-media { aspect-ratio: 4 / 3; background: var(--ss-soft) center / cover no-repeat; }
+.ss-room-body { padding: 1.2rem 1.3rem 1.4rem; display: flex; flex-direction: column; gap: .5rem; flex: 1; }
+.ss-room-name { margin: 0; font-size: 1.3rem; }
+.ss-room-desc { margin: 0; color: var(--ss-muted); font-size: .97rem; flex: 1; }
+.ss-room-foot { display: flex; justify-content: space-between; gap: .75rem; margin: .25rem 0 0; font-size: .92rem; color: var(--ss-muted); border-top: 1px solid var(--ss-line); padding-top: .75rem; }
+.ss-room-foot strong { color: var(--ss-deep); }
