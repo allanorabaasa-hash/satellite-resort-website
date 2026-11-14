@@ -29,9 +29,16 @@
 
 	<!-- wp:group {"align":"wide","className":"sat-hero-copy","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide sat-hero-copy">
-		<!-- wp:paragraph {"className":"sat-hero-place"} -->
-		<p class="sat-hero-place">Muhanga, on the Kabale–Mbarara Road</p>
-		<!-- /wp:paragraph -->
+		<!-- wp:group {"className":"sat-hero-meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
+		<div class="wp-block-group sat-hero-meta">
+			<!-- wp:paragraph {"className":"sat-hero-place"} -->
+			<p class="sat-hero-place">Muhanga, on the Kabale–Mbarara Road</p>
+			<!-- /wp:paragraph -->
+			<!-- wp:html -->
+			<p class="sat-weather" data-lat="-1.2486" data-lon="29.9899" hidden><span class="sat-weather-text"></span></p>
+			<!-- /wp:html -->
+		</div>
+		<!-- /wp:group -->
 		<!-- wp:heading {"level":1,"className":"sat-hero-title","textColor":"accent-5"} -->
 		<h1 class="wp-block-heading sat-hero-title has-accent-5-color has-text-color">Wake up in the hills of Kabale.</h1>
 		<!-- /wp:heading -->

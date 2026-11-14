@@ -6,6 +6,7 @@
  *   accommodation_types  1 ──< units          (a type has many rooms/cottages)
  *   accommodation_types  1 ──< bookings       (a guest books a type)
  *   units                1 ──< bookings       (staff assign a unit on confirmation)
+ *   bookings             1 ──  reviews        (one verified review per stay)
  *
  * Every query containing user input goes through $wpdb->prepare().
  * Table names come from the site's own prefix, never from user input.
@@ -98,6 +99,30 @@ class SS_DB {
 			) ENGINE=InnoDB $charset"
 		);
 
+		$r = self::table( 'reviews' );
+		$wpdb->query(
+			"CREATE TABLE IF NOT EXISTS $r (
+				id           BIGINT UNSIGNED  NOT NULL AUTO_INCREMENT,
+				booking_id   BIGINT UNSIGNED  DEFAULT NULL,
+				type_id      BIGINT UNSIGNED  NOT NULL,
+				display_name VARCHAR(60)      NOT NULL,
+				rating       TINYINT UNSIGNED NOT NULL,
+				title        VARCHAR(120)     NOT NULL,
+				body         VARCHAR(1500)    NOT NULL,
+				stayed_on    DATE             NOT NULL,
+				status       VARCHAR(20)      NOT NULL DEFAULT 'pending',
+				created_at   DATETIME         NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				PRIMARY KEY (id),
+				UNIQUE KEY uq_review_booking (booking_id),
+				KEY idx_review_status (status),
+				CONSTRAINT fk_ss_review_booking FOREIGN KEY (booking_id) REFERENCES $b (id)
+					ON UPDATE CASCADE ON DELETE SET NULL,
+				CONSTRAINT fk_ss_review_type FOREIGN KEY (type_id) REFERENCES $t (id)
+					ON UPDATE CASCADE ON DELETE RESTRICT,
+				CONSTRAINT chk_ss_review_rating CHECK (rating BETWEEN 1 AND 5)
+			) ENGINE=InnoDB $charset"
+		);
+
 		// Starter accommodation from the resort's public website. Guest numbers,
 		// unit counts and prices must be confirmed with the resort.
 		if ( 0 === (int) $wpdb->get_var( "SELECT COUNT(*) FROM $t" ) ) {
@@ -184,6 +209,46 @@ class SS_DB {
 				$check_in
 			)
 		);
+	}
+
+	/**
+	 * Free rooms of one type for every night in [from, to).
+	 * One query fetches the overlapping bookings;
+	 * the per-night count is worked out in PHP.
+	 *
+	 * @return array<int, array{date:string, free:int}>
+	 */
+	public static function nightly_free( $type_id, $from, $to ) {
+		global $wpdb;
+		$u = self::table( 'units' );
+		$b = self::table( 'bookings' );
+
+		$total = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $u WHERE type_id = %d AND is_active = 1", $type_id ) );
+		$stays = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT check_in, check_out FROM $b
+				  WHERE type_id = %d AND status IN (" . self::HOLDING . ")
+				    AND check_in < %s AND check_out > %s",
+				$type_id,
+				$to,
+				$from
+			)
+		);
+
+		$out = array();
+		for ( $day = $from; $day < $to; $day = gmdate( 'Y-m-d', strtotime( $day . ' +1 day' ) ) ) {
+			$taken = 0;
+			foreach ( $stays as $s ) {
+				if ( $s->check_in <= $day && $s->check_out > $day ) {
+					++$taken;
+				}
+			}
+			$out[] = array(
+				'date' => $day,
+				'free' => max( 0, $total - $taken ),
+			);
+		}
+		return $out;
 	}
 
 	/** Free units of one type for a stay (used just before saving a request). */
@@ -551,6 +616,92 @@ class SS_DB {
 		);
 	}
 
+	/* =================================================================
+	 * Reviews (verified: each one belongs to a checked-out booking)
+	 * ================================================================= */
+
+	/** Approved reviews for the website — JOIN shows which accommodation was stayed in. */
+	public static function get_public_reviews( $limit = 6 ) {
+		global $wpdb;
+		$r = self::table( 'reviews' );
+		$t = self::table( 'accommodation_types' );
+		return $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT r.id, r.display_name, r.rating, r.title, r.body, r.stayed_on, t.name AS type_name
+				   FROM $r AS r
+				  INNER JOIN $t AS t ON t.id = r.type_id
+				  WHERE r.status = 'approved'
+				  ORDER BY r.stayed_on DESC, r.id DESC
+				  LIMIT %d",
+				$limit
+			)
+		);
+	}
+
+	/** Average rating and count of approved reviews. */
+	public static function review_summary() {
+		global $wpdb;
+		$r = self::table( 'reviews' );
+		return $wpdb->get_row( "SELECT COUNT(*) AS total, ROUND(AVG(rating), 1) AS average FROM $r WHERE status = 'approved'" );
+	}
+
+	/** All reviews for moderation — LEFT JOIN to the booking (which may have been purged). */
+	public static function get_reviews( $status = '' ) {
+		global $wpdb;
+		$r     = self::table( 'reviews' );
+		$t     = self::table( 'accommodation_types' );
+		$b     = self::table( 'bookings' );
+		$where = $status ? $wpdb->prepare( 'WHERE r.status = %s', $status ) : '';
+		return $wpdb->get_results(
+			"SELECT r.*, t.name AS type_name, b.guest_name, b.phone
+			   FROM $r AS r
+			  INNER JOIN $t AS t ON t.id = r.type_id
+			   LEFT JOIN $b AS b ON b.id = r.booking_id
+			   $where
+			  ORDER BY r.created_at DESC
+			  LIMIT 300"
+		);
+	}
+
+	public static function review_for_booking( $booking_id ) {
+		global $wpdb;
+		$r = self::table( 'reviews' );
+		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $r WHERE booking_id = %d", $booking_id ) );
+	}
+
+	/** CREATE. Returns the new ID, or false (e.g. this stay was already reviewed). */
+	public static function insert_review( array $d ) {
+		global $wpdb;
+		$r  = self::table( 'reviews' );
+		$ok = $wpdb->query(
+			$wpdb->prepare(
+				"INSERT INTO $r (booking_id, type_id, display_name, rating, title, body, stayed_on, status)
+				 VALUES (%d, %d, %s, %d, %s, %s, %s, 'pending')",
+				$d['booking_id'],
+				$d['type_id'],
+				$d['display_name'],
+				$d['rating'],
+				$d['title'],
+				$d['body'],
+				$d['stayed_on']
+			)
+		);
+		return $ok ? (int) $wpdb->insert_id : false;
+	}
+
+	/** UPDATE (moderation). */
+	public static function set_review_status( $id, $status ) {
+		global $wpdb;
+		$r = self::table( 'reviews' );
+		return $wpdb->query( $wpdb->prepare( "UPDATE $r SET status = %s WHERE id = %d", $status, $id ) );
+	}
+
+	public static function delete_review( $id ) {
+		global $wpdb;
+		$r = self::table( 'reviews' );
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM $r WHERE id = %d", $id ) );
+	}
+
 	public static function stats() {
 		global $wpdb;
 		$b     = self::table( 'bookings' );
@@ -563,6 +714,7 @@ class SS_DB {
 					(SELECT COUNT(*) FROM $b WHERE check_out = %s AND status = 'checked_in') AS departures,
 					(SELECT COUNT(*) FROM $b WHERE status = 'checked_in') AS in_house,
 					(SELECT COUNT(*) FROM $b WHERE status = 'pending') AS requests,
+					(SELECT COUNT(*) FROM " . self::table( 'reviews' ) . " WHERE status = 'pending') AS reviews_waiting,
 					(SELECT COUNT(*) FROM $u WHERE is_active = 1) AS units,
 					(SELECT COUNT(*) FROM $b WHERE status IN ('confirmed','checked_in') AND check_in <= %s AND check_out > %s) AS occupied_tonight",
 				$today,

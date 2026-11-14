@@ -38,8 +38,11 @@ function sat_img( $file, $size = 'large' ) {
 	global $wpdb;
 	$id = (int) $wpdb->get_var(
 		$wpdb->prepare(
-			"SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attached_file' AND meta_value LIKE %s ORDER BY post_id DESC LIMIT 1",
-			'%' . $wpdb->esc_like( '/' . $file )
+			"SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attached_file' AND ( meta_value LIKE %s OR meta_value LIKE %s OR meta_value LIKE %s ) ORDER BY post_id DESC LIMIT 1",
+			// Match "cottage.jpg", "cottage.jpeg/.png/.webp" and WordPress's "cottage-scaled.jpg" for large photos.
+			'%/' . $wpdb->esc_like( pathinfo( $file, PATHINFO_FILENAME ) ) . '.%',
+			'%/' . $wpdb->esc_like( pathinfo( $file, PATHINFO_FILENAME ) ) . '-scaled.%',
+			$wpdb->esc_like( pathinfo( $file, PATHINFO_FILENAME ) ) . '.%'
 		)
 	);
 	$url           = $id ? wp_get_attachment_image_url( $id, $size ) : '';
@@ -64,8 +67,32 @@ function sat_enqueue_assets() {
 			'in_footer' => true,
 		)
 	);
+	if ( is_front_page() ) {
+		wp_enqueue_script(
+			'sat-weather',
+			get_stylesheet_directory_uri() . '/assets/js/weather.js',
+			array(),
+			$version,
+			array(
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			)
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'sat_enqueue_assets' );
+
+/** Keep the private review page out of search engines. */
+add_filter(
+	'wp_robots',
+	function ( $robots ) {
+		if ( is_page( 'review-your-stay' ) ) {
+			$robots['noindex'] = true;
+			$robots['nofollow'] = true;
+		}
+		return $robots;
+	}
+);
 
 /**
  * Floating "Chat on WhatsApp" button on every page.

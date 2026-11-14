@@ -41,6 +41,16 @@ class SS_Public {
 	public static function register_assets() {
 		wp_register_style( 'ss-public', SS_URL . 'assets/public.css', array(), SS_VERSION );
 		wp_register_script(
+			'ss-calendar',
+			SS_URL . 'assets/calendar.js',
+			array(),
+			SS_VERSION,
+			array(
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			)
+		);
+		wp_register_script(
 			'ss-dates',
 			SS_URL . 'assets/dates.js',
 			array(),
@@ -354,6 +364,7 @@ class SS_Public {
 		}
 
 		wp_enqueue_script( 'ss-dates' );
+		wp_enqueue_script( 'ss-calendar' );
 		$v = self::$values ? self::$values : array_merge( self::query_from_get(), array( 'type_id' => absint( $_GET['type'] ?? 0 ) ) );
 
 		if ( self::$errors ) :
@@ -384,6 +395,8 @@ class SS_Public {
 					<?php endforeach; ?>
 				</select>
 			</div>
+
+			<div class="ss-cal" data-ss-cal data-endpoint="<?php echo esc_url( rest_url( 'satellite-stays/v1/availability' ) ); ?>" hidden></div>
 
 			<div class="ss-row">
 				<?php self::date_fields( $v, 'ss-b' ); ?>
@@ -620,8 +633,11 @@ class SS_Public {
 		global $wpdb;
 		$id = (int) $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attached_file' AND meta_value LIKE %s ORDER BY post_id DESC LIMIT 1",
-				'%' . $wpdb->esc_like( '/' . $file )
+				"SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attached_file' AND ( meta_value LIKE %s OR meta_value LIKE %s OR meta_value LIKE %s ) ORDER BY post_id DESC LIMIT 1",
+				// Match "cottage.jpg", "cottage.jpeg/.png/.webp" and WordPress's "cottage-scaled.jpg" for large photos.
+				'%/' . $wpdb->esc_like( pathinfo( $file, PATHINFO_FILENAME ) ) . '.%',
+				'%/' . $wpdb->esc_like( pathinfo( $file, PATHINFO_FILENAME ) ) . '-scaled.%',
+				$wpdb->esc_like( pathinfo( $file, PATHINFO_FILENAME ) ) . '.%'
 			)
 		);
 		$url = $id ? wp_get_attachment_image_url( $id, 'large' ) : '';

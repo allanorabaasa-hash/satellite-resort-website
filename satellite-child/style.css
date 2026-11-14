@@ -4,7 +4,7 @@ Theme URI:    https://github.com/allanorabaasa-hash/satellite-resort-website
 Description:  Child theme of Twenty Twenty-Five for Satellite Holiday Resort & Great Lakes Museum, Kabale. Highland palette, contour-line motif, photo slider hero with a booking search, and page designs for every part of the resort.
 Author:       Allan
 Template:     twentytwentyfive
-Version:      1.0.0
+Version:      1.1.0
 Requires at least: 6.7
 Requires PHP: 7.4
 License:      GPL-2.0-or-later
@@ -323,3 +323,57 @@ main.wp-block-group { margin-top: 0 !important; }
 
 /* Booking module output spans the wide layout */
 .sat-section > .ss-wrap { max-width: var(--wp--style--global--wide-size) !important; margin-left: auto !important; margin-right: auto !important; }
+
+/* ==========================================================================
+   Hero weather badge
+   ========================================================================== */
+.sat-hero-meta { gap: .6rem 1.25rem; align-items: center; margin-bottom: 1rem; }
+.sat-hero-meta .sat-hero-place { margin: 0; }
+.sat-weather {
+	display: inline-flex;
+	align-items: center;
+	gap: .5rem;
+	margin: 0;
+	padding: .3rem .8rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .12);
+	border: 1px solid rgba(255, 255, 255, .22);
+	font-size: .9rem;
+	font-weight: 600;
+	color: var(--wp--preset--color--accent-5);
+	backdrop-filter: blur(6px);
+}
+.sat-weather[hidden] { display: none; }
+.sat-weather::before { content: ""; width: .55rem; height: .55rem; border-radius: 50%; background: var(--wp--preset--color--sun); box-shadow: 0 0 0 3px rgba(232, 176, 75, .25); }
+.sat-weather.is-night::before { background: #c9d6e3; box-shadow: 0 0 0 3px rgba(201, 214, 227, .25); }
+
+/* ==========================================================================
+   Plan your stay
+   ========================================================================== */
+.sat-plan h2 { margin: 0; }
+.sat-plan-lead { margin-top: .6rem; margin-bottom: 2.25rem; color: rgba(228, 236, 226, .85); font-size: var(--wp--preset--font-size--large); }
+.sat-plans { gap: 1.1rem; }
+.sat-plan-card {
+	position: relative;
+	padding: 1.6rem 1.5rem 1.5rem;
+	border-radius: var(--sat-radius);
+	background: rgba(255, 255, 255, .06);
+	border: 1px solid rgba(255, 255, 255, .14);
+	display: flex;
+	flex-direction: column;
+}
+.sat-plan-card::before { content: ""; display: block; width: 2.5rem; height: 3px; background: var(--wp--preset--color--sun); margin-bottom: 1.1rem; }
+.sat-plan-card h3 { margin: 0 0 .4rem; font-size: 1.35rem; }
+.sat-plan-card > p { margin: 0 0 1rem; color: rgba(228, 236, 226, .85); }
+.sat-plan-list { list-style: none; padding: 0; margin: 0 0 1.25rem; flex: 1; }
+.sat-plan-list li { padding: .45rem 0; border-top: 1px solid rgba(255, 255, 255, .12); font-size: .95rem; color: rgba(255, 255, 255, .92); }
+.sat-plan-cta { margin: 0 !important; }
+.sat-plan-cta a { color: var(--wp--preset--color--sun); font-weight: 700; text-decoration: none; }
+.sat-plan-cta a::after { content: " ›"; }
+.sat-plan-cta a:hover { text-decoration: underline; }
+@media (max-width: 1100px) { .sat-plans.is-layout-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .sat-plans.is-layout-grid { grid-template-columns: 1fr; } }
+
+/* Reviews band (from the booking module) */
+.ss-reviews-band.sat-section { background: var(--wp--preset--color--base); }
+.ss-reviews-band .ss-reviews-head h2 { font-size: var(--wp--preset--font-size--xx-large); }

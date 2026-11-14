@@ -38,3 +38,8 @@
 .ss-key:first-child { margin-left: 0; }
 
 @media (max-width: 960px) { .ss-layout { grid-template-columns: 1fr; } }
+
+/* Reviews */
+.ss-rv-pending  { background: #fcf3cf; color: #7a5c00; }
+.ss-rv-approved { background: #e4f1e3; color: #23552c; }
+.ss-rv-hidden   { background: #eef0ee; color: #50575e; }
