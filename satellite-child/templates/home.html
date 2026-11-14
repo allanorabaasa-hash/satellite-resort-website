@@ -1,0 +1,53 @@
+<!-- wp:template-part {"slug":"header"} /-->
+
+<!-- wp:group {"tagName":"main","style":{"spacing":{"margin":{"top":"0"}}},"layout":{"type":"default"}} -->
+<main class="wp-block-group" style="margin-top:0">
+	<!-- wp:group {"align":"full","className":"sat-page-head sat-contours","backgroundColor":"accent-3","textColor":"accent-2","layout":{"type":"constrained"}} -->
+	<div class="wp-block-group alignfull sat-page-head sat-contours has-accent-2-color has-accent-3-background-color has-text-color has-background">
+		<!-- wp:heading {"level":1,"textColor":"accent-5"} -->
+		<h1 class="wp-block-heading has-accent-5-color has-text-color">Travel notes</h1>
+		<!-- /wp:heading -->
+		<!-- wp:paragraph {"fontSize":"large"} -->
+		<p class="has-large-font-size">Ideas for your trip to Kabale and the southwest: what to do, where to go and how to plan it.</p>
+		<!-- /wp:paragraph -->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- wp:group {"align":"full","className":"sat-section","layout":{"type":"constrained"}} -->
+	<div class="wp-block-group alignfull sat-section">
+		<!-- wp:query {"queryId":1,"query":{"perPage":9,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":true},"align":"wide","className":"sat-post-grid"} -->
+		<div class="wp-block-query alignwide sat-post-grid">
+			<!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
+				<!-- wp:group {"className":"sat-post-card","layout":{"type":"default"}} -->
+				<div class="wp-block-group sat-post-card">
+					<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"3/2"} /-->
+					<!-- wp:group {"className":"sat-post-card-body","layout":{"type":"default"}} -->
+					<div class="wp-block-group sat-post-card-body">
+						<!-- wp:post-date {"fontSize":"small"} /-->
+						<!-- wp:post-title {"level":2,"isLink":true} /-->
+						<!-- wp:post-excerpt {"moreText":"Read the article","excerptLength":28} /-->
+					</div>
+					<!-- /wp:group -->
+				</div>
+				<!-- /wp:group -->
+			<!-- /wp:post-template -->
+
+			<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"center"}} -->
+				<!-- wp:query-pagination-previous /-->
+				<!-- wp:query-pagination-numbers /-->
+				<!-- wp:query-pagination-next /-->
+			<!-- /wp:query-pagination -->
+
+			<!-- wp:query-no-results -->
+				<!-- wp:paragraph -->
+				<p>No articles yet. Check back soon for travel ideas from Kabale.</p>
+				<!-- /wp:paragraph -->
+			<!-- /wp:query-no-results -->
+		</div>
+		<!-- /wp:query -->
+	</div>
+	<!-- /wp:group -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer"} /-->
