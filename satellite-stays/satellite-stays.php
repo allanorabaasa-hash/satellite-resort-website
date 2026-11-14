@@ -22,6 +22,7 @@ define( 'SS_URL', plugin_dir_url( __FILE__ ) );
 require_once SS_PATH . 'includes/class-ss-db.php';
 require_once SS_PATH . 'includes/class-ss-public.php';
 require_once SS_PATH . 'includes/class-ss-admin.php';
+require_once SS_PATH . 'includes/class-ss-rest.php';
 
 /**
  * Module settings with resort defaults (Bookings → Settings).
@@ -76,3 +77,4 @@ add_action(
 );
 
 SS_Public::init();
+SS_REST::init();

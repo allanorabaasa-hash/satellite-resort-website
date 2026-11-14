@@ -186,6 +186,46 @@ class SS_DB {
 		);
 	}
 
+	/**
+	 * Free rooms of one type for every night in [from, to).
+	 * One query fetches the overlapping bookings;
+	 * the per-night count is worked out in PHP.
+	 *
+	 * @return array<int, array{date:string, free:int}>
+	 */
+	public static function nightly_free( $type_id, $from, $to ) {
+		global $wpdb;
+		$u = self::table( 'units' );
+		$b = self::table( 'bookings' );
+
+		$total = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $u WHERE type_id = %d AND is_active = 1", $type_id ) );
+		$stays = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT check_in, check_out FROM $b
+				  WHERE type_id = %d AND status IN (" . self::HOLDING . ")
+				    AND check_in < %s AND check_out > %s",
+				$type_id,
+				$to,
+				$from
+			)
+		);
+
+		$out = array();
+		for ( $day = $from; $day < $to; $day = gmdate( 'Y-m-d', strtotime( $day . ' +1 day' ) ) ) {
+			$taken = 0;
+			foreach ( $stays as $s ) {
+				if ( $s->check_in <= $day && $s->check_out > $day ) {
+					++$taken;
+				}
+			}
+			$out[] = array(
+				'date' => $day,
+				'free' => max( 0, $total - $taken ),
+			);
+		}
+		return $out;
+	}
+
 	/** Free units of one type for a stay (used just before saving a request). */
 	public static function free_count( $type_id, $check_in, $check_out, $exclude_booking = 0 ) {
 		global $wpdb;
