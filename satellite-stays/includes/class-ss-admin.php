@@ -55,6 +55,7 @@ class SS_Admin {
 		if ( false !== strpos( $hook, 'ss-' ) ) {
 			wp_enqueue_style( 'ss-admin', SS_URL . 'assets/admin.css', array(), SS_VERSION );
 		}
+		// Media Library picker for the accommodation photo.
 		if ( false !== strpos( $hook, 'ss-accommodation' ) ) {
 			wp_enqueue_media();
 			wp_enqueue_script( 'ss-photo-picker', SS_URL . 'assets/photo-picker.js', array( 'jquery' ), SS_VERSION, true );
@@ -533,10 +534,11 @@ class SS_Admin {
 				</div>
 				<div class="ss-list">
 					<table class="widefat striped">
-						<thead><tr><th>Accommodation</th><th>Sleeps</th><th>Per night</th><th>Rooms</th><th>Bookings</th><th>Website</th><th></th></tr></thead>
+						<thead><tr><th class="ss-thumb-col">Photo</th><th>Accommodation</th><th>Sleeps</th><th>Per night</th><th>Rooms</th><th>Bookings</th><th>Website</th><th></th></tr></thead>
 						<tbody>
 						<?php foreach ( $rows as $r ) : ?>
 							<tr>
+								<td class="ss-thumb-col"><?php $this->thumb( $r->image ); ?></td>
 								<td><strong><?php echo esc_html( $r->name ); ?></strong><br><small><?php echo esc_html( $r->description ); ?></small></td>
 								<td><?php echo (int) $r->max_guests; ?></td>
 								<td><?php echo esc_html( ss_money( $r->price_per_night ) ); ?></td>
@@ -677,23 +679,39 @@ class SS_Admin {
 	}
 
 	/**
-	 * Photo chooser: pick from the Media Library (or upload) with a preview.
-	 * Stores the photo's file name, which the website looks up.
+	 * Photo for an accommodation type: a preview, a "Choose photo" button that opens the
+	 * Media Library, and the file name it stores (which can still be typed by hand).
+	 *
+	 * @param string $file Stored file name.
 	 */
-	private function photo_field( $value ) {
-		$url = $value ? SS_Public::image_url( $value ) : '';
+	private function photo_field( $file ) {
+		$url = $file ? SS_Public::image_url( $file ) : '';
 		?>
 		<div class="ss-photo-field">
 			<label for="ss-image">Photo</label>
 			<div class="ss-photo-preview"<?php echo $url ? '' : ' hidden'; ?>><img src="<?php echo esc_url( $url ); ?>" alt=""></div>
-			<input type="hidden" id="ss-image" name="image" value="<?php echo esc_attr( (string) $value ); ?>">
-			<p>
-				<button type="button" class="button ss-photo-choose"><?php echo $value ? 'Change photo' : 'Choose photo'; ?></button>
-				<button type="button" class="button-link ss-photo-remove"<?php echo $value ? '' : ' hidden'; ?>>Remove</button>
+			<p class="ss-photo-buttons">
+				<button type="button" class="button button-secondary ss-photo-choose"><?php echo $file ? 'Change photo' : 'Choose photo'; ?></button>
+				<button type="button" class="button-link ss-photo-remove"<?php echo $file ? '' : ' hidden'; ?>>Remove</button>
 			</p>
-			<p class="description">Shown on the accommodation cards and booking results. Pick one from the Media Library or upload a new one.</p>
+			<input class="regular-text" type="text" id="ss-image" name="image" value="<?php echo esc_attr( $file ); ?>" placeholder="e.g. cottage.jpg">
+			<p class="description">Pick a photo from the Media Library, or type its file name.</p>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Small preview of an accommodation photo in the list.
+	 *
+	 * @param string $file Stored file name.
+	 */
+	private function thumb( $file ) {
+		$url = $file ? SS_Public::image_url( $file ) : '';
+		if ( $url ) {
+			printf( '<img class="ss-thumb" src="%s" alt="">', esc_url( $url ) );
+		} else {
+			echo '<span class="ss-thumb ss-thumb-empty">No photo</span>';
+		}
 	}
 
 	private function select( $name, $label, array $options, $current ) {
