@@ -634,7 +634,7 @@ class SS_Admin {
 				<?php submit_button( 'Delete old bookings', 'secondary', 'submit', false ); ?>
 			</form>
 			<h2>Website shortcodes</h2>
-			<p><code>[ss_availability]</code> date search with results. <code>[ss_availability compact="1" action="/stay/"]</code> search box only. <code>[ss_booking_form]</code> booking request form.</p>
+			<p><code>[ss_availability]</code> date search with results. <code>[ss_availability compact="1" action="/accommodation/"]</code> search box only. <code>[ss_booking_form]</code> booking request form.</p>
 		</div>
 		<?php
 	}

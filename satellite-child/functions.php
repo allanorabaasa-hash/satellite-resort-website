@@ -132,7 +132,19 @@ add_action(
 	'wp_head',
 	function () {
 		if ( ! has_site_icon() ) {
-			printf( '<link rel="icon" type="image/svg+xml" href="%s">' . "\n", esc_url( get_stylesheet_directory_uri() . '/assets/images/brand/crest.svg' ) );
+			printf( '<link rel="icon" type="image/svg+xml" href="%s">' . "\n", esc_url( get_stylesheet_directory_uri() . '/assets/images/brand/crest-green.svg' ) );
+		}
+	}
+);
+
+/** Old links to /stay/ (before it was renamed Accommodation) still work. */
+add_action(
+	'template_redirect',
+	function () {
+		$path = untrailingslashit( (string) wp_parse_url( add_query_arg( array() ), PHP_URL_PATH ) );
+		if ( is_404() && 'stay' === basename( $path ) ) {
+			wp_safe_redirect( home_url( '/accommodation/' ), 301 );
+			exit;
 		}
 	}
 );

@@ -52,7 +52,7 @@
 			<!-- wp:list {"className":"sat-footer-links"} -->
 			<ul class="wp-block-list sat-footer-links">
 				<!-- wp:list-item -->
-				<li><a href="<?php echo esc_url( home_url( '/stay/' ) ); ?>">Stay and book</a></li>
+				<li><a href="<?php echo esc_url( home_url( '/accommodation/' ) ); ?>">Accommodation and booking</a></li>
 				<!-- /wp:list-item -->
 				<!-- wp:list-item -->
 				<li><a href="<?php echo esc_url( home_url( '/adventure/' ) ); ?>">Adventure park</a></li>

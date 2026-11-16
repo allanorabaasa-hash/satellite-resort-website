@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 function sat_setup_pages() {
 	return array(
 		'home'               => array( 'Home', 'satellite-child/page-home' ),
-		'stay'               => array( 'Stay', 'satellite-child/page-stay' ),
+		'accommodation'      => array( 'Accommodation', 'satellite-child/page-stay' ),
 		'book-your-stay'     => array( 'Book Your Stay', 'satellite-child/page-book' ),
 		'adventure'          => array( 'Adventure', 'satellite-child/page-adventure' ),
 		'great-lakes-museum' => array( 'Great Lakes Museum', 'satellite-child/page-museum' ),
@@ -163,6 +163,9 @@ function sat_run_site_setup() {
 		}
 
 		$existing = get_page_by_path( $slug );
+		if ( ! $existing && 'accommodation' === $slug ) {
+			$existing = get_page_by_path( 'stay' ); // renamed from Stay in 1.2.0
+		}
 		$data     = array(
 			'post_title'   => $title,
 			'post_name'    => $slug,

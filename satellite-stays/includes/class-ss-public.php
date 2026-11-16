@@ -5,7 +5,7 @@
  *  [ss_availability]  Date search. Shows each accommodation type with how
  *                     many are free for the whole stay, the price for the
  *                     stay (or "Rates on request") and a booking button.
- *                     compact="1" shows only the search box; action="/stay/"
+ *                     compact="1" shows only the search box; action="/accommodation/"
  *                     sends the search to another page.
  *
  *  [ss_rooms]         Cards for every bookable accommodation type, read live
@@ -181,10 +181,10 @@ class SS_Public {
 	/**
 	 * Accommodation cards.
 	 *
-	 * @param array $atts link="/stay/" where "Check dates" points.
+	 * @param array $atts link="/accommodation/" where "Check dates" points.
 	 */
 	public static function rooms( $atts ) {
-		$atts  = shortcode_atts( array( 'link' => '/stay/' ), $atts, 'ss_rooms' );
+		$atts  = shortcode_atts( array( 'link' => '/accommodation/' ), $atts, 'ss_rooms' );
 		$types = SS_DB::get_types( true );
 		wp_enqueue_style( 'ss-public' );
 		if ( empty( $types ) ) {
