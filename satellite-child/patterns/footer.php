@@ -16,9 +16,9 @@
 	<div class="wp-block-columns alignwide">
 		<!-- wp:column {"width":"36%"} -->
 		<div class="wp-block-column" style="flex-basis:36%">
-			<!-- wp:heading {"level":2,"className":"sat-footer-name"} -->
-			<h2 class="wp-block-heading sat-footer-name">Satellite Holiday Resort</h2>
-			<!-- /wp:heading -->
+			<!-- wp:image {"width":"170px","sizeSlug":"full","className":"sat-footer-logo"} -->
+			<figure class="wp-block-image size-full is-resized sat-footer-logo"><img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/brand/logo-on-dark.svg' ); ?>" alt="Satellite Holiday Resort and Great Lakes Museum, Kabale" style="width:170px"/></figure>
+			<!-- /wp:image -->
 			<!-- wp:paragraph -->
 			<p>Wooden cottages, an adventure park and the Great Lakes Museum in the hills of Kabale. Made for honeymoons, family holidays and stopovers on the road west.</p>
 			<!-- /wp:paragraph -->

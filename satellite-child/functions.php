@@ -127,6 +127,16 @@ add_action(
 	}
 );
 
+/** Browser tab icon: the resort crest, until a Site Icon is set in Settings → General. */
+add_action(
+	'wp_head',
+	function () {
+		if ( ! has_site_icon() ) {
+			printf( '<link rel="icon" type="image/svg+xml" href="%s">' . "\n", esc_url( get_stylesheet_directory_uri() . '/assets/images/brand/crest.svg' ) );
+		}
+	}
+);
+
 /** Don't advertise the WordPress version. */
 remove_action( 'wp_head', 'wp_generator' );
 add_filter( 'the_generator', '__return_empty_string' );

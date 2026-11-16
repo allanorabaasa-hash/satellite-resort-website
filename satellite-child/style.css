@@ -4,7 +4,7 @@ Theme URI:    https://github.com/allanorabaasa-hash/satellite-resort-website
 Description:  Child theme of Twenty Twenty-Five for Satellite Holiday Resort & Great Lakes Museum, Kabale. Highland palette, contour-line motif, photo slider hero with a booking search, and page designs for every part of the resort.
 Author:       Allan
 Template:     twentytwentyfive
-Version:      1.1.0
+Version:      1.2.0
 Requires at least: 6.7
 Requires PHP: 7.4
 License:      GPL-2.0-or-later
@@ -73,20 +73,17 @@ main.wp-block-group { margin-top: 0 !important; }
 .sat-header-inner { padding: .7rem 0; gap: 1.5rem; }
 .sat-header-actions { gap: 1.6rem; }
 
-.sat-brand { gap: 0; position: relative; padding-left: 2.6rem; }
+.sat-brand { gap: 0; position: relative; padding-left: 3.4rem; min-height: 3rem; justify-content: center; }
 .sat-brand::before {
-	/* a planet with an orbit: the resort's name, drawn simply */
+	/* the resort crest: laurel wreath, S monogram and orbit */
 	content: "";
 	position: absolute;
 	left: 0;
 	top: 50%;
-	width: 2rem;
-	height: 2rem;
+	width: 2.9rem;
+	height: 2.95rem;
 	transform: translateY(-50%);
-	background:
-		radial-gradient(circle at 50% 50%, var(--wp--preset--color--accent-1) 0 34%, transparent 35%),
-		radial-gradient(ellipse 50% 22% at 50% 50%, transparent 86%, var(--wp--preset--color--sun) 88% 96%, transparent 98%);
-	rotate: -24deg;
+	background: url(assets/images/brand/crest.svg) center / contain no-repeat;
 }
 .sat-brand-name { margin: 0; font-family: var(--wp--preset--font-family--bricolage); font-weight: 800; font-size: 1.35rem; letter-spacing: -.02em; line-height: 1; }
 .sat-brand-name a { color: var(--wp--preset--color--accent-3); text-decoration: none; }
@@ -377,3 +374,7 @@ main.wp-block-group { margin-top: 0 !important; }
 /* Reviews band (from the booking module) */
 .ss-reviews-band.sat-section { background: var(--wp--preset--color--base); }
 .ss-reviews-band .ss-reviews-head h2 { font-size: var(--wp--preset--font-size--xx-large); }
+
+/* Footer logo */
+.sat-footer-logo { margin: 0 0 1rem; }
+.sat-footer-logo img { display: block; height: auto; }

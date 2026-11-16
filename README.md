@@ -129,6 +129,12 @@ Upload these to the Media Library with exactly these names (the site finds them 
 `gardens.jpg` `gift-shop.jpg` · `restaurant.jpg` `hall.jpg` · `gallery-1.jpg` … `gallery-9.jpg` ·
 `blog-kabale.jpg`.
 
+## Brand
+
+`satellite-child/assets/images/brand/` holds the resort crest and logo as SVG: `crest.svg` (header and
+browser tab), `logo-on-dark.svg` (footer), `logo-on-light.svg` and `logo.svg` (square, on deep green, for
+social media and print). The lettering is Cinzel (SIL OFL), converted to outlines.
+
 ## Status
 
 - [x] Booking module: availability, booking requests, emails, staff calendar and workflow
