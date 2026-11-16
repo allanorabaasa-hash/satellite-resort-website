@@ -131,11 +131,12 @@ function sat_setup_find_attachment( $file ) {
 	global $wpdb;
 	return (int) $wpdb->get_var(
 		$wpdb->prepare(
-			"SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attached_file' AND ( meta_value LIKE %s OR meta_value LIKE %s OR meta_value LIKE %s ) ORDER BY post_id DESC LIMIT 1",
-			// Match "cottage.jpg", "cottage.jpeg/.png/.webp" and WordPress's "cottage-scaled.jpg" for large photos.
-			'%/' . $wpdb->esc_like( pathinfo( $file, PATHINFO_FILENAME ) ) . '.%',
-			'%/' . $wpdb->esc_like( pathinfo( $file, PATHINFO_FILENAME ) ) . '-scaled.%',
-			$wpdb->esc_like( pathinfo( $file, PATHINFO_FILENAME ) ) . '.%'
+			"SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attached_file' AND meta_value REGEXP %s ORDER BY post_id DESC LIMIT 1",
+			/*
+			 * "cottage.jpg" finds cottage.jpg/.jpeg/.png/.webp, WordPress's cottage-scaled.jpg for large
+			 * photos, and cottage-1.jpg when a replacement was uploaded with the same name. The newest wins.
+			 */
+			'(^|/)' . preg_replace( '/[^A-Za-z0-9_-]/', '', pathinfo( $file, PATHINFO_FILENAME ) ) . '(-[0-9]+)?(-scaled)?[.](jpe?g|png|webp|avif|gif)$'
 		)
 	);
 }

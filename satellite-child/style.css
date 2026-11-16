@@ -4,7 +4,7 @@ Theme URI:    https://github.com/allanorabaasa-hash/satellite-resort-website
 Description:  Child theme of Twenty Twenty-Five for Satellite Holiday Resort & Great Lakes Museum, Kabale. Highland palette, contour-line motif, photo slider hero with a booking search, and page designs for every part of the resort.
 Author:       Allan
 Template:     twentytwentyfive
-Version:      1.3.0
+Version:      1.4.0
 Requires at least: 6.7
 Requires PHP: 7.4
 License:      GPL-2.0-or-later
@@ -18,8 +18,8 @@ Text Domain:  satellite-child
 	--sat-gutter: clamp(1rem, 4vw, 2.25rem);
 	--sat-section: clamp(3.5rem, 8vw, 7rem);
 	--sat-radius: 6px;
-	--sat-gold: linear-gradient(135deg, #E9CF8E 0%, #D4AF61 45%, #B48A36 100%);
-	--sat-gold-line: rgba(212, 175, 97, .55);
+	--sat-gold: linear-gradient(135deg, color-mix(in srgb, var(--wp--preset--color--sun) 62%, #fff) 0%, var(--wp--preset--color--sun) 45%, color-mix(in srgb, var(--wp--preset--color--sun) 78%, #000) 100%);
+	--sat-gold-line: color-mix(in srgb, var(--wp--preset--color--sun) 55%, transparent);
 }
 body { -webkit-font-smoothing: antialiased; }
 ::selection { background: var(--wp--preset--color--sun); color: var(--wp--preset--color--contrast); }
@@ -88,7 +88,7 @@ main.wp-block-group { margin-top: 0 !important; }
 	position: sticky;
 	top: 0;
 	z-index: 50;
-	background: rgba(246, 243, 236, .94);
+	background: color-mix(in srgb, var(--wp--preset--color--base) 94%, transparent);
 	backdrop-filter: saturate(1.3) blur(10px);
 	-webkit-backdrop-filter: saturate(1.3) blur(10px);
 	border-bottom: 1px solid var(--sat-gold-line);
@@ -171,8 +171,8 @@ main.wp-block-group { margin-top: 0 !important; }
 	position: absolute;
 	inset: 0;
 	background:
-		linear-gradient(0deg, rgba(20, 36, 28, .92) 0%, rgba(20, 36, 28, .55) 38%, rgba(20, 36, 28, .1) 70%),
-		linear-gradient(90deg, rgba(20, 36, 28, .55) 0%, rgba(20, 36, 28, 0) 60%);
+		linear-gradient(0deg, color-mix(in srgb, var(--wp--preset--color--accent-3) 92%, transparent) 0%, color-mix(in srgb, var(--wp--preset--color--accent-3) 55%, transparent) 38%, color-mix(in srgb, var(--wp--preset--color--accent-3) 10%, transparent) 70%),
+		linear-gradient(90deg, color-mix(in srgb, var(--wp--preset--color--accent-3) 55%, transparent) 0%, color-mix(in srgb, var(--wp--preset--color--accent-3) 0%, transparent) 60%);
 }
 .sat-hero > :not(.sat-slides):not(.sat-slides-nav) { position: relative; z-index: 2; }
 .sat-hero > .sat-slides + * { margin-top: 0; }
@@ -223,7 +223,7 @@ main.wp-block-group { margin-top: 0 !important; }
 	.sat-hero-search { transform: none; padding-bottom: 1.5rem; }
 	.sat-hero + .sat-section { padding-top: var(--sat-section); }
 	.sat-slides-nav { top: 1.25rem; }
-	.sat-slides::after { background: rgba(20, 36, 28, .78); }
+	.sat-slides::after { background: color-mix(in srgb, var(--wp--preset--color--accent-3) 78%, transparent); }
 }
 
 /* ==========================================================================
@@ -459,7 +459,7 @@ h2.wp-block-heading { font-weight: 600; }
 
 /* tick list and plan cards in gold */
 .sat-ticks li::before { background-color: var(--wp--preset--color--gold-deep); }
-.sat-plan-card { border-color: rgba(212, 175, 97, .28); }
+.sat-plan-card { border-color: color-mix(in srgb, var(--wp--preset--color--sun) 28%, transparent); }
 .sat-plan-card::before { height: 1px; background: var(--sat-gold); }
 
 /* footer */
@@ -468,4 +468,129 @@ h2.wp-block-heading { font-weight: 600; }
 .sat-footer a:hover { color: var(--wp--preset--color--sun); text-decoration: none; }
 
 /* weather badge dot */
-.sat-weather::before { box-shadow: 0 0 0 3px rgba(212, 175, 97, .3); }
+.sat-weather::before { box-shadow: 0 0 0 3px color-mix(in srgb, var(--wp--preset--color--sun) 30%, transparent); }
+
+/* ==========================================================================
+   Sliding gallery (gallery.js)
+   ========================================================================== */
+.sat-reel-band { overflow: hidden; }
+.sat-reel-band .sat-section-head { margin-bottom: 2.25rem; }
+.sat-reel {
+	--sat-reel-h: clamp(300px, 40vw, 480px);
+	display: flex;
+	gap: 1.1rem;
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+	scroll-snap-type: x mandatory;
+	scroll-padding-inline: max(var(--sat-gutter), calc((100% - var(--wp--style--global--wide-size)) / 2));
+	padding: 0 max(var(--sat-gutter), calc((100% - var(--wp--style--global--wide-size)) / 2));
+	margin: 0 !important;
+	max-width: none !important;
+	scrollbar-width: none;
+}
+.sat-reel::-webkit-scrollbar { display: none; }
+.sat-reel:focus-visible { outline: 2px solid var(--wp--preset--color--sun); outline-offset: 6px; }
+.sat-reel > .sat-reel-item {
+	position: relative;
+	flex: 0 0 auto;
+	height: var(--sat-reel-h);
+	aspect-ratio: 4 / 5;
+	margin: 0 !important;
+	scroll-snap-align: start;
+	overflow: hidden;
+	border-radius: var(--sat-radius);
+	background: rgba(255, 255, 255, .06);
+}
+.sat-reel > .sat-reel-item:nth-child(3n + 2) { aspect-ratio: 5 / 4; }
+.sat-reel-item img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; transition: transform .8s ease; }
+.sat-reel-item:hover img { transform: scale(1.05); }
+.sat-reel-item img:focus-visible { outline: 3px solid var(--wp--preset--color--sun); outline-offset: -3px; }
+.sat-reel-item::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(0deg, rgba(14, 26, 20, .75) 0%, rgba(14, 26, 20, 0) 45%);
+	pointer-events: none;
+}
+.sat-reel-item figcaption {
+	position: absolute;
+	z-index: 1;
+	left: 1.1rem;
+	right: 1.1rem;
+	bottom: .9rem;
+	margin: 0;
+	font-family: var(--wp--preset--font-family--cormorant);
+	font-style: italic;
+	font-size: 1.3rem;
+	line-height: 1.2;
+	color: #fff;
+	text-align: left;
+	pointer-events: none;
+}
+.sat-reel-controls {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	max-width: var(--wp--style--global--wide-size);
+	margin: 1.75rem auto 0 !important;
+}
+.sat-reel-controls button {
+	flex: none;
+	width: 46px;
+	height: 46px;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	border: 1px solid var(--wp--preset--color--sun);
+	background: transparent;
+	color: var(--wp--preset--color--sun);
+	cursor: pointer;
+	transition: background .2s ease, color .2s ease;
+}
+.sat-reel-controls button:hover { background: var(--sat-gold); color: var(--wp--preset--color--accent-3); border-color: transparent; }
+.sat-reel-controls svg { width: 20px; height: 20px; fill: currentColor; }
+.sat-reel-progress { flex: 1; height: 1px; background: rgba(255, 255, 255, .2); overflow: hidden; }
+.sat-reel-progress span { display: block; height: 100%; background: var(--wp--preset--color--sun); transition: transform .3s ease; }
+@media (max-width: 781px) { .sat-reel-controls { padding: 0 var(--sat-gutter); } }
+
+/* full-screen photo viewer */
+.sat-lightbox-open, .sat-lightbox-open body { overflow: hidden; }
+.sat-lightbox {
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+	display: grid;
+	place-items: center;
+	padding: 4.5rem 4.5rem 3rem;
+	background: rgba(10, 18, 14, .94);
+}
+.sat-lightbox[hidden] { display: none; }
+.sat-lightbox figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 1rem; max-height: 100%; }
+.sat-lightbox img { max-width: 100%; max-height: calc(100vh - 10rem); object-fit: contain; border-radius: 4px; box-shadow: 0 30px 80px rgba(0, 0, 0, .5); }
+.sat-lightbox figcaption { font-family: var(--wp--preset--font-family--cormorant); font-style: italic; font-size: 1.4rem; color: #fff; }
+.sat-lightbox button {
+	position: absolute;
+	width: 48px;
+	height: 48px;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	border: 1px solid rgba(212, 175, 97, .7);
+	background: rgba(0, 0, 0, .25);
+	color: var(--wp--preset--color--sun);
+	cursor: pointer;
+}
+.sat-lightbox button:hover { background: var(--sat-gold); color: var(--wp--preset--color--accent-3); }
+.sat-lightbox svg { width: 22px; height: 22px; fill: currentColor; }
+.sat-lightbox-close { top: 1rem; right: 1rem; }
+.sat-lightbox-prev { left: 1rem; top: 50%; transform: translateY(-50%); }
+.sat-lightbox-next { right: 1rem; top: 50%; transform: translateY(-50%); }
+@media (max-width: 600px) {
+	.sat-lightbox { padding: 4rem .75rem 5.5rem; }
+	.sat-lightbox-prev, .sat-lightbox-next { top: auto; bottom: 1rem; transform: none; }
+	.sat-lightbox-prev { left: calc(50% - 60px); }
+	.sat-lightbox-next { right: calc(50% - 60px); }
+}
+
+/* on the Gallery page the reel follows the page heading directly */
+.sat-page-head + .sat-reel-band { padding-top: 0; }
