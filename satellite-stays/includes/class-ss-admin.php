@@ -55,6 +55,10 @@ class SS_Admin {
 		if ( false !== strpos( $hook, 'ss-' ) ) {
 			wp_enqueue_style( 'ss-admin', SS_URL . 'assets/admin.css', array(), SS_VERSION );
 		}
+		if ( false !== strpos( $hook, 'ss-accommodation' ) ) {
+			wp_enqueue_media();
+			wp_enqueue_script( 'ss-photo-picker', SS_URL . 'assets/photo-picker.js', array( 'jquery' ), SS_VERSION, true );
+		}
 	}
 
 	/* =================================================================
@@ -517,7 +521,7 @@ class SS_Admin {
 						<?php
 						$this->field( 'max_guests', 'Sleeps up to (guests)', $editing->max_guests ?? 2, 'number' );
 						$this->field( 'price_per_night', 'Price per night in UGX (empty = "Rates on request")', isset( $editing->price_per_night ) ? (float) $editing->price_per_night : '', 'number' );
-						$this->field( 'image', 'Photo file name in the Media Library (e.g. cottage.jpg)', $editing->image ?? '' );
+						$this->photo_field( $editing->image ?? '' );
 						$this->field( 'sort_order', 'Display order', $editing->sort_order ?? 0, 'number' );
 						?>
 						<p><label><input type="checkbox" name="is_active" value="1" <?php checked( (int) ( $editing->is_active ?? 1 ), 1 ); ?>> Bookable on the website</label></p>
@@ -670,6 +674,26 @@ class SS_Admin {
 			$required ? ' required' : '',
 			$extra // Fixed strings only.
 		);
+	}
+
+	/**
+	 * Photo chooser: pick from the Media Library (or upload) with a preview.
+	 * Stores the photo's file name, which the website looks up.
+	 */
+	private function photo_field( $value ) {
+		$url = $value ? SS_Public::image_url( $value ) : '';
+		?>
+		<div class="ss-photo-field">
+			<label for="ss-image">Photo</label>
+			<div class="ss-photo-preview"<?php echo $url ? '' : ' hidden'; ?>><img src="<?php echo esc_url( $url ); ?>" alt=""></div>
+			<input type="hidden" id="ss-image" name="image" value="<?php echo esc_attr( (string) $value ); ?>">
+			<p>
+				<button type="button" class="button ss-photo-choose"><?php echo $value ? 'Change photo' : 'Choose photo'; ?></button>
+				<button type="button" class="button-link ss-photo-remove"<?php echo $value ? '' : ' hidden'; ?>>Remove</button>
+			</p>
+			<p class="description">Shown on the accommodation cards and booking results. Pick one from the Media Library or upload a new one.</p>
+		</div>
+		<?php
 	}
 
 	private function select( $name, $label, array $options, $current ) {

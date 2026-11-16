@@ -490,7 +490,7 @@ h2.wp-block-heading { font-weight: 600; }
 }
 .sat-reel::-webkit-scrollbar { display: none; }
 .sat-reel:focus-visible { outline: 2px solid var(--wp--preset--color--sun); outline-offset: 6px; }
-.sat-reel > .sat-reel-item {
+.sat-reel > figure {
 	position: relative;
 	flex: 0 0 auto;
 	height: var(--sat-reel-h);
@@ -501,7 +501,7 @@ h2.wp-block-heading { font-weight: 600; }
 	border-radius: var(--sat-radius);
 	background: rgba(255, 255, 255, .06);
 }
-.sat-reel > .sat-reel-item:nth-child(3n + 2) { aspect-ratio: 5 / 4; }
+.sat-reel > figure:nth-child(3n + 2) { aspect-ratio: 5 / 4; }
 .sat-reel-item img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; transition: transform .8s ease; }
 .sat-reel-item:hover img { transform: scale(1.05); }
 .sat-reel-item img:focus-visible { outline: 3px solid var(--wp--preset--color--sun); outline-offset: -3px; }
