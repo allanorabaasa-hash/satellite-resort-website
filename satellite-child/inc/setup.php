@@ -144,7 +144,7 @@ function sat_setup_find_attachment( $file ) {
 /**
  * Run the setup. Returns a list of what was done, for the report.
  */
-function sat_run_site_setup() {
+function sat_run_site_setup( $reset = true ) {
 	$log      = array();
 	$registry = WP_Block_Patterns_Registry::get_instance();
 	$ids      = array();
@@ -174,6 +174,13 @@ function sat_run_site_setup() {
 			'post_status'  => 'publish',
 			'post_content' => $content,
 		);
+
+		if ( $existing && ! $reset ) {
+			// Keep the client's own edits: only pages that don't exist yet are created.
+			$ids[ $slug ] = $existing->ID;
+			$log[]        = "Kept page as edited: {$title}";
+			continue;
+		}
 
 		if ( $existing ) {
 			$data['ID'] = $existing->ID;
@@ -281,7 +288,10 @@ add_action(
 		}
 		check_admin_referer( 'sat_run_setup' );
 
-		set_transient( 'sat_setup_log_' . get_current_user_id(), sat_run_site_setup(), 10 * MINUTE_IN_SECONDS );
+		// Once the site is built, pages are only replaced when the reset box is ticked.
+		$reset = ! get_option( 'sat_site_built' ) || ! empty( $_POST['sat_reset_pages'] );
+		set_transient( 'sat_setup_log_' . get_current_user_id(), sat_run_site_setup( $reset ), 10 * MINUTE_IN_SECONDS );
+		update_option( 'sat_site_built', time(), false );
 		wp_safe_redirect( admin_url( 'themes.php?page=sat-setup&done=1' ) );
 		exit;
 	}
@@ -305,18 +315,23 @@ function sat_setup_screen() {
 
 		<p>This builds the whole site from the theme's designs in one step:</p>
 		<ul style="list-style:disc;padding-left:1.5em">
-			<li>Creates or refreshes the pages Home, Stay, Book Your Stay, Adventure, Great Lakes Museum, Food and Hall, Gallery, Contact, Review Your Stay and Travel Notes.</li>
+			<li>Creates the pages Home, Accommodation, Book Your Stay, Adventure, Great Lakes Museum, Food and Hall, Gallery, Contact, Review Your Stay and Travel Notes.</li>
 			<li>Sets Home as the homepage and Travel Notes as the blog page.</li>
 			<li>Sets the site title, tagline, time zone and "Post name" permalinks.</li>
 			<li>Moves the WordPress "Hello world!" post and "Sample Page" to the trash.</li>
 			<li>Adds the article "Things to Do in Kabale" (600+ words, for SEO), using blog-kabale.jpg from the Media Library as its picture.</li>
 		</ul>
-		<p><strong>Note:</strong> refreshing a page replaces its content with the latest design. Edits made directly to those pages will be overwritten. Existing articles are never changed.</p>
-
+		<?php $built = get_option( 'sat_site_built' ); ?>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 			<input type="hidden" name="action" value="sat_run_setup">
 			<?php wp_nonce_field( 'sat_run_setup' ); ?>
-			<?php submit_button( 'Build the site', 'primary', 'submit', false ); ?>
+			<?php if ( $built ) : ?>
+				<p>The site was built on <?php echo esc_html( wp_date( get_option( 'date_format' ), (int) $built ) ); ?>. Running it again is safe: it only adds pages that are missing and <strong>keeps every edit you have made</strong>.</p>
+				<p style="padding:.75em 1em;background:#fcf0f1;border-left:4px solid #d63638">
+					<label><input type="checkbox" name="sat_reset_pages" value="1"> <strong>Reset the pages to the original designs.</strong> This replaces the text and photos you changed on Home, Accommodation, Adventure, Museum, Food and Hall, Gallery and Contact. Articles are never changed.</label>
+				</p>
+			<?php endif; ?>
+			<?php submit_button( $built ? 'Run setup' : 'Build the site', 'primary', 'submit', false ); ?>
 		</form>
 	</div>
 	<?php

@@ -105,7 +105,10 @@
 
 	/* ---------- the sliding reel ---------- */
 	function init( reel ) {
-		var items = Array.prototype.slice.call( reel.querySelectorAll( '.sat-reel-item' ) );
+		// every image in the row is a slide, including ones the client adds in the editor
+		var items = Array.prototype.slice.call( reel.querySelectorAll( ':scope > figure' ) ).filter( function ( f ) {
+			return f.querySelector( 'img' );
+		} );
 		if ( ! items.length ) {
 			return;
 		}
@@ -115,6 +118,7 @@
 		reel.tabIndex = 0;
 
 		items.forEach( function ( item, n ) {
+			item.classList.add( 'sat-reel-item' );
 			item.setAttribute( 'role', 'group' );
 			item.setAttribute( 'aria-roledescription', 'slide' );
 			item.setAttribute( 'aria-label', ( n + 1 ) + ' of ' + items.length );
