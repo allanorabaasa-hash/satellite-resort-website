@@ -51,7 +51,7 @@
 	<!-- wp:group {"align":"wide","className":"sat-hero-search","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide sat-hero-search">
 		<!-- wp:shortcode -->
-		[ss_availability compact="1" action="/stay/"]
+		[ss_availability compact="1" action="/accommodation/"]
 		<!-- /wp:shortcode -->
 	</div>
 	<!-- /wp:group -->

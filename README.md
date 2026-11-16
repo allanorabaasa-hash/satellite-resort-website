@@ -32,7 +32,7 @@ the site cleanly, adds real online booking, and hardens it (see the security rep
 satellite-resort-website/
 ├── satellite-child/            Child theme of Twenty Twenty-Five
 │   ├── style.css               Theme header + all custom CSS
-│   ├── theme.json              Highland palette, Bricolage Grotesque + Figtree, layout
+│   ├── theme.json              Ivory, forest and gold palette; Cormorant Garamond + Figtree
 │   ├── functions.php           Assets, photo lookup by file name, WhatsApp button
 │   ├── inc/setup.php           Appearance → Resort setup (one-click page build)
 │   ├── parts/, templates/      Custom header, footer and Travel Notes (blog) template
@@ -100,7 +100,7 @@ purge tool for old guest records.
 
 ## Website shortcodes
 
-`[ss_availability]` date search with results · `[ss_availability compact="1" action="/stay/"]` search
+`[ss_availability]` date search with results · `[ss_availability compact="1" action="/accommodation/"]` search
 box only · `[ss_rooms]` accommodation cards · `[ss_booking_form]` booking request form with calendar ·
 `[ss_reviews]` published reviews · `[ss_review_form]` the private review page.
 
@@ -128,6 +128,12 @@ Upload these to the Media Library with exactly these names (the site finds them 
 `mountain-climbing.jpg` `kids-park.jpg` `games.jpg` · `museum.jpg` `tree-of-life.jpg` `statues.jpg`
 `gardens.jpg` `gift-shop.jpg` · `restaurant.jpg` `hall.jpg` · `gallery-1.jpg` … `gallery-9.jpg` ·
 `blog-kabale.jpg`.
+
+## Brand
+
+`satellite-child/assets/images/brand/` holds the resort crest and logo as SVG: `crest-green.svg` (header and browser tab),
+`crest.svg` (crest alone), `logo-on-dark.svg` (footer), `logo-on-light.svg` and `logo.svg` (square, on deep green, for
+social media and print). The lettering is Cinzel (SIL OFL), converted to outlines.
 
 ## Status
 

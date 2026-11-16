@@ -9,7 +9,7 @@
 	--ss-line: var(--wp--preset--color--accent-6, #dcdfd4);
 	--ss-soft: var(--wp--preset--color--accent-2, #eef1e8);
 	--ss-paper: #fff;
-	--ss-radius: 14px;
+	--ss-radius: 6px;
 }
 
 .ss-label { display: block; font-weight: 700; font-size: .9rem; color: var(--ss-deep); margin-bottom: .35rem; }
