@@ -26,6 +26,7 @@
 		<!-- wp:group {"className":"sat-header-actions","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"right"}} -->
 		<div class="wp-block-group sat-header-actions">
 			<!-- wp:navigation {"overlayBackgroundColor":"base","overlayTextColor":"contrast","className":"sat-nav","layout":{"type":"flex","justifyContent":"right","flexWrap":"nowrap"}} -->
+				<!-- wp:navigation-link {"label":"Home","url":"<?php echo esc_url( home_url( '/' ) ); ?>","kind":"custom"} /-->
 				<!-- wp:navigation-link {"label":"Accommodation","url":"<?php echo esc_url( home_url( '/accommodation/' ) ); ?>","kind":"custom"} /-->
 				<!-- wp:navigation-link {"label":"Adventure","url":"<?php echo esc_url( home_url( '/adventure/' ) ); ?>","kind":"custom"} /-->
 				<!-- wp:navigation-link {"label":"Museum","url":"<?php echo esc_url( home_url( '/great-lakes-museum/' ) ); ?>","kind":"custom"} /-->

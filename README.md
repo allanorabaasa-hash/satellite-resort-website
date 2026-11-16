@@ -32,7 +32,7 @@ the site cleanly, adds real online booking, and hardens it (see the security rep
 satellite-resort-website/
 ├── satellite-child/            Child theme of Twenty Twenty-Five
 │   ├── style.css               Theme header + all custom CSS
-│   ├── theme.json              Highland palette, Bricolage Grotesque + Figtree, layout
+│   ├── theme.json              Ivory, forest and gold palette; Cormorant Garamond + Figtree
 │   ├── functions.php           Assets, photo lookup by file name, WhatsApp button
 │   ├── inc/setup.php           Appearance → Resort setup (one-click page build)
 │   ├── parts/, templates/      Custom header, footer and Travel Notes (blog) template
