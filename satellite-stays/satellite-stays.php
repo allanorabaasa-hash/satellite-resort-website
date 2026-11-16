@@ -3,7 +3,7 @@
  * Plugin Name:       Satellite Stays
  * Plugin URI:        https://github.com/allanorabaasa-hash/satellite-resort-website
  * Description:       Accommodation booking module for Satellite Holiday Resort, Kabale: accommodation types, rooms/cottages, live availability calendar, booking requests with email alerts, a staff booking calendar and verified guest reviews. Full CRUD using prepared statements.
- * Version:           1.1.0
+ * Version:           1.2.0
  * Author:            Allan
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SS_VERSION', '1.1.0' );
+define( 'SS_VERSION', '1.2.0' );
 define( 'SS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SS_URL', plugin_dir_url( __FILE__ ) );
 
