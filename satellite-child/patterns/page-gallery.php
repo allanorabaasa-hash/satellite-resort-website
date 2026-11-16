@@ -5,7 +5,7 @@
  * Categories: satellite
  * Post Types: page
  * Block Types: core/post-content
- * Description: Photo gallery. Upload gallery-1.jpg to gallery-9.jpg, or replace with your own Gallery block.
+ * Description: Sliding gallery and photo grid. Upload gallery-1.jpg to gallery-9.jpg, or replace with your own Gallery block.
  *
  * @package satellite-child
  */
@@ -21,8 +21,13 @@
 </div>
 <!-- /wp:group -->
 
+<?php echo sat_reel( '', false ); // Sliding gallery. ?>
+
 <!-- wp:group {"align":"full","className":"sat-section","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull sat-section">
+	<!-- wp:heading {"align":"wide","className":"sat-subhead"} -->
+	<h2 class="wp-block-heading alignwide sat-subhead">More photos</h2>
+	<!-- /wp:heading -->
 	<!-- wp:group {"align":"wide","className":"sat-gallery","layout":{"type":"grid","columnCount":3,"minimumColumnWidth":null}} -->
 	<div class="wp-block-group alignwide sat-gallery">
 		<?php for ( $sat_i = 1; $sat_i <= 9; $sat_i++ ) : ?>

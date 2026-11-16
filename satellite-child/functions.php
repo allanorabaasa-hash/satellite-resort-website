@@ -38,16 +38,68 @@ function sat_img( $file, $size = 'large' ) {
 	global $wpdb;
 	$id = (int) $wpdb->get_var(
 		$wpdb->prepare(
-			"SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attached_file' AND ( meta_value LIKE %s OR meta_value LIKE %s OR meta_value LIKE %s ) ORDER BY post_id DESC LIMIT 1",
-			// Match "cottage.jpg", "cottage.jpeg/.png/.webp" and WordPress's "cottage-scaled.jpg" for large photos.
-			'%/' . $wpdb->esc_like( pathinfo( $file, PATHINFO_FILENAME ) ) . '.%',
-			'%/' . $wpdb->esc_like( pathinfo( $file, PATHINFO_FILENAME ) ) . '-scaled.%',
-			$wpdb->esc_like( pathinfo( $file, PATHINFO_FILENAME ) ) . '.%'
+			"SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attached_file' AND meta_value REGEXP %s ORDER BY post_id DESC LIMIT 1",
+			/*
+			 * "cottage.jpg" finds cottage.jpg/.jpeg/.png/.webp, WordPress's cottage-scaled.jpg for large
+			 * photos, and cottage-1.jpg when a replacement was uploaded with the same name. The newest wins.
+			 */
+			'(^|/)' . preg_replace( '/[^A-Za-z0-9_-]/', '', pathinfo( $file, PATHINFO_FILENAME ) ) . '(-[0-9]+)?(-scaled)?[.](jpe?g|png|webp|avif|gif)$'
 		)
 	);
 	$url           = $id ? wp_get_attachment_image_url( $id, $size ) : '';
 	$cache[ $key ] = esc_url( $url ? $url : get_stylesheet_directory_uri() . '/assets/images/placeholder.svg' );
 	return $cache[ $key ];
+}
+
+/**
+ * Photos in the sliding gallery, with captions. File name => caption.
+ * Change the order or captions here; the photos come from the Media Library.
+ */
+function sat_reel_photos() {
+	return array(
+		'hero-1.jpg'          => 'Wooden cottages in the hills',
+		'zip-lining.jpg'      => 'The zip-line over the valley',
+		'tree-of-life.jpg'    => 'The Tree of Life',
+		'museum.jpg'          => 'Inside the Great Lakes Museum',
+		'pirate-ship.jpg'     => 'The pirate ship',
+		'gardens.jpg'         => 'The gardens',
+		'restaurant.jpg'      => 'Restaurant and terrace',
+		'kids-park.jpg'       => 'The kids\' park',
+		'statues.jpg'         => 'Statues in the grounds',
+		'hall.jpg'            => 'The function hall',
+		'mountain-biking.jpg' => 'Mountain biking',
+		'camping.jpg'         => 'Camping under the hills',
+	);
+}
+
+/**
+ * Sliding gallery markup (block HTML). gallery.js adds the arrows, autoplay and full-screen view.
+ *
+ * @param string $title   Heading above the reel ('' for none).
+ * @param bool   $link    Add a "See the full gallery" link.
+ */
+function sat_reel( $title = 'Moments at Satellite', $link = true ) {
+	$out = '<!-- wp:group {"align":"full","className":"sat-section sat-reel-band sat-contours","backgroundColor":"accent-3","textColor":"accent-2","layout":{"type":"constrained"}} -->' . "\n";
+	$out .= '<div class="wp-block-group alignfull sat-section sat-reel-band sat-contours has-accent-2-color has-accent-3-background-color has-text-color has-background">' . "\n";
+	if ( $title ) {
+		$out .= '<!-- wp:group {"align":"wide","className":"sat-section-head","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"}} -->' . "\n";
+		$out .= '<div class="wp-block-group alignwide sat-section-head">' . "\n";
+		$out .= '<!-- wp:heading {"textColor":"accent-5"} --><h2 class="wp-block-heading has-accent-5-color has-text-color">' . esc_html( $title ) . '</h2><!-- /wp:heading -->' . "\n";
+		if ( $link ) {
+			$out .= '<!-- wp:buttons --><div class="wp-block-buttons"><!-- wp:button {"className":"is-style-outline"} --><div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="' . esc_url( home_url( '/gallery/' ) ) . '">See the full gallery</a></div><!-- /wp:button --></div><!-- /wp:buttons -->' . "\n";
+		}
+		$out .= '</div>' . "\n" . '<!-- /wp:group -->' . "\n";
+	}
+	$out .= '<!-- wp:group {"align":"full","className":"sat-reel","layout":{"type":"default"}} -->' . "\n";
+	$out .= '<div class="wp-block-group alignfull sat-reel">' . "\n";
+	foreach ( sat_reel_photos() as $file => $caption ) {
+		$out .= '<!-- wp:image {"sizeSlug":"large","linkDestination":"none","className":"sat-reel-item"} -->' . "\n";
+		$out .= '<figure class="wp-block-image size-large sat-reel-item"><img src="' . sat_img( $file ) . '" alt="' . esc_attr( $caption . ', Satellite Holiday Resort, Kabale' ) . '" loading="lazy"/><figcaption class="wp-element-caption">' . esc_html( $caption ) . '</figcaption></figure>' . "\n";
+		$out .= '<!-- /wp:image -->' . "\n";
+	}
+	$out .= '</div>' . "\n" . '<!-- /wp:group -->' . "\n";
+	$out .= '</div>' . "\n" . '<!-- /wp:group -->' . "\n";
+	return $out;
 }
 
 /**
@@ -67,6 +119,18 @@ function sat_enqueue_assets() {
 			'in_footer' => true,
 		)
 	);
+	if ( is_front_page() || is_page( 'gallery' ) ) {
+		wp_enqueue_script(
+			'sat-gallery',
+			get_stylesheet_directory_uri() . '/assets/js/gallery.js',
+			array(),
+			$version,
+			array(
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			)
+		);
+	}
 	if ( is_front_page() ) {
 		wp_enqueue_script(
 			'sat-weather',

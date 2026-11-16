@@ -232,6 +232,8 @@
 </div>
 <!-- /wp:group -->
 
+<?php echo sat_reel(); // Sliding gallery. ?>
+
 <!-- wp:shortcode -->
 [ss_reviews class="alignfull sat-section"]
 <!-- /wp:shortcode -->
