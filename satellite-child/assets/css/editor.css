@@ -13,9 +13,9 @@
 	margin: 0 0 1.5rem !important;
 	padding: 2.6rem 10px 10px !important;
 	max-width: none !important;
-	border: 2px dashed #D4AF61;
+	border: 2px dashed var(--wp--preset--color--sun);
 	border-radius: 6px;
-	background: rgba(212, 175, 97, .08) !important;
+	background: color-mix(in srgb, var(--wp--preset--color--sun) 10%, transparent) !important;
 	overflow: visible !important;
 }
 .sat-slides::before,
@@ -25,7 +25,7 @@
 	left: .8rem;
 	right: .8rem;
 	font: 600 13px/1.3 system-ui, sans-serif;
-	color: #D4AF61;
+	color: var(--wp--preset--color--sun);
 }
 .sat-slides::before { content: "Hero slider: on the website these photos fade one into the next. Click a photo to replace it, or add an Image block here for another slide."; }
 .sat-reel::before { content: "Sliding gallery: on the website this row slides on its own. Click a photo to replace it or edit its caption; add or remove Image blocks freely."; }

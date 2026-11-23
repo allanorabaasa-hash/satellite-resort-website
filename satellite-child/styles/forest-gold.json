@@ -1,0 +1,66 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "Original forest & gold",
+	"settings": {
+		"color": {
+			"palette": [
+				{
+					"slug": "base",
+					"name": "Ivory",
+					"color": "#F6F3EC"
+				},
+				{
+					"slug": "contrast",
+					"name": "Ink",
+					"color": "#18211C"
+				},
+				{
+					"slug": "accent-1",
+					"name": "Hill green",
+					"color": "#3D6B45"
+				},
+				{
+					"slug": "accent-2",
+					"name": "Linen",
+					"color": "#ECE6D8"
+				},
+				{
+					"slug": "accent-3",
+					"name": "Forest night",
+					"color": "#1C3328"
+				},
+				{
+					"slug": "accent-4",
+					"name": "Moss grey",
+					"color": "#56645A"
+				},
+				{
+					"slug": "accent-5",
+					"name": "White",
+					"color": "#FFFFFF"
+				},
+				{
+					"slug": "accent-6",
+					"name": "Hairline",
+					"color": "#E2DACA"
+				},
+				{
+					"slug": "lake",
+					"name": "Lake blue",
+					"color": "#2C5A6E"
+				},
+				{
+					"slug": "sun",
+					"name": "Gold",
+					"color": "#D4AF61"
+				},
+				{
+					"slug": "gold-deep",
+					"name": "Antique gold",
+					"color": "#A8822F"
+				}
+			]
+		}
+	}
+}
