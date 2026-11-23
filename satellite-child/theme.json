@@ -7,33 +7,33 @@
 			"palette": [
 				{
 					"slug": "base",
-					"name": "Ivory",
-					"color": "#F6F3EC"
+					"name": "White",
+					"color": "#FFFFFF"
 				},
 				{
 					"slug": "contrast",
 					"name": "Ink",
-					"color": "#18211C"
+					"color": "#14181F"
 				},
 				{
 					"slug": "accent-1",
-					"name": "Hill green",
-					"color": "#3D6B45"
+					"name": "Leaf green",
+					"color": "#15803D"
 				},
 				{
 					"slug": "accent-2",
-					"name": "Linen",
-					"color": "#ECE6D8"
+					"name": "Sunny cream",
+					"color": "#FFF6E0"
 				},
 				{
 					"slug": "accent-3",
-					"name": "Forest night",
-					"color": "#1C3328"
+					"name": "Deep lake blue",
+					"color": "#0E3B5E"
 				},
 				{
 					"slug": "accent-4",
-					"name": "Moss grey",
-					"color": "#56645A"
+					"name": "Grey text",
+					"color": "#4E5A63"
 				},
 				{
 					"slug": "accent-5",
@@ -43,22 +43,22 @@
 				{
 					"slug": "accent-6",
 					"name": "Hairline",
-					"color": "#E2DACA"
+					"color": "#E6E1D3"
 				},
 				{
 					"slug": "lake",
 					"name": "Lake blue",
-					"color": "#2C5A6E"
+					"color": "#0A6FA8"
 				},
 				{
 					"slug": "sun",
-					"name": "Gold",
-					"color": "#D4AF61"
+					"name": "Sunshine yellow",
+					"color": "#FFB627"
 				},
 				{
 					"slug": "gold-deep",
-					"name": "Antique gold",
-					"color": "#A8822F"
+					"name": "Amber",
+					"color": "#B45F00"
 				}
 			]
 		},

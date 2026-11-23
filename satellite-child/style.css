@@ -1,10 +1,10 @@
 /*
 Theme Name:   Satellite Holiday Resort
 Theme URI:    https://github.com/allanorabaasa-hash/satellite-resort-website
-Description:  Child theme of Twenty Twenty-Five for Satellite Holiday Resort & Great Lakes Museum, Kabale. Highland palette, contour-line motif, photo slider hero with a booking search, and page designs for every part of the resort.
+Description:  Child theme of Twenty Twenty-Five for Satellite Holiday Resort & Great Lakes Museum, Kabale. Bright lake, sun and leaf palette (change it in Appearance → Editor → Styles; the original forest & gold look is a style variation), contour-line motif, photo slider hero with a booking search, and page designs for every part of the resort.
 Author:       Allan
 Template:     twentytwentyfive
-Version:      1.4.2
+Version:      1.5.0
 Requires at least: 6.7
 Requires PHP: 7.4
 License:      GPL-2.0-or-later
@@ -205,7 +205,7 @@ main.wp-block-group { margin-top: 0 !important; }
 }
 .sat-hero-place::before { content: ""; width: 2.25rem; height: 2px; background: var(--wp--preset--color--sun); }
 .sat-hero-title { margin: 0; max-width: 12ch; font-size: clamp(3.2rem, 8vw, 6.8rem) !important; font-weight: 500 !important; line-height: .98; letter-spacing: -.01em; text-wrap: balance; }
-.sat-hero-lead { margin: 1.4rem 0 0; max-width: 48ch; font-size: clamp(1.05rem, 1.5vw, 1.25rem); color: rgba(228, 236, 226, .9); }
+.sat-hero-lead { margin: 1.4rem 0 0; max-width: 48ch; font-size: clamp(1.05rem, 1.5vw, 1.25rem); color: rgba(255, 255, 255, .95); }
 
 .sat-hero-search { width: 100%; transform: translateY(50%); margin-top: 0 !important; }
 .sat-hero + .sat-section { padding-top: calc(var(--sat-section) + 3.5rem); }
@@ -254,7 +254,7 @@ main.wp-block-group { margin-top: 0 !important; }
 .sat-page-head { padding: clamp(4rem, 10vw, 7rem) var(--sat-gutter) clamp(3rem, 6vw, 4.5rem); }
 .sat-page-head > * { max-width: var(--wp--style--global--wide-size) !important; }
 .sat-page-head h1 { margin: 0 0 .8rem; text-wrap: balance; }
-.sat-page-head p.has-large-font-size { margin: 0; max-width: 54ch; color: rgba(228, 236, 226, .88); }
+.sat-page-head p.has-large-font-size { margin: 0; max-width: 54ch; color: rgba(255, 255, 255, .94); }
 
 /* Photos */
 .sat-photo { margin: 0; }
@@ -278,7 +278,7 @@ main.wp-block-group { margin-top: 0 !important; }
 
 /* Museum band */
 .sat-museum h2 { margin-top: 0; }
-.sat-museum p { color: rgba(228, 236, 226, .9); font-size: var(--wp--preset--font-size--large); }
+.sat-museum p { color: rgba(255, 255, 255, .95); font-size: var(--wp--preset--font-size--large); }
 .sat-museum .wp-block-columns { gap: clamp(1.5rem, 5vw, 4.5rem); }
 
 /* Restaurant + hall pair */
@@ -323,15 +323,15 @@ main.wp-block-group { margin-top: 0 !important; }
    Footer
    ========================================================================== */
 .sat-footer { padding: clamp(3.5rem, 8vw, 6rem) var(--sat-gutter) 2rem; margin-top: 0; }
-.sat-footer p { color: rgba(228, 236, 226, .78); }
+.sat-footer p { color: rgba(255, 255, 255, .88); }
 .sat-footer a { color: var(--wp--preset--color--accent-5); text-decoration: none; }
 .sat-footer a:hover { text-decoration: underline; }
 .sat-footer-name { margin-top: 0; font-size: var(--wp--preset--font-size--x-large) !important; color: var(--wp--preset--color--accent-5) !important; }
 .sat-footer-title { font-family: var(--wp--preset--font-family--figtree) !important; font-size: .95rem !important; letter-spacing: 0 !important; color: var(--wp--preset--color--sun) !important; margin: .4rem 0 .75rem; }
 .sat-footer-links { list-style: none; padding: 0; margin: 0; }
 .sat-footer-links li { margin-bottom: .35rem; }
-.sat-footer-bottom { margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid rgba(228, 236, 226, .15); }
-.sat-footer-bottom p { margin: 0; color: rgba(228, 236, 226, .6); }
+.sat-footer-bottom { margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid rgba(255, 255, 255, .2); }
+.sat-footer-bottom p { margin: 0; color: rgba(255, 255, 255, .75); }
 
 /* ==========================================================================
    Floating WhatsApp button
@@ -406,7 +406,7 @@ main.wp-block-group { margin-top: 0 !important; }
    Plan your stay
    ========================================================================== */
 .sat-plan h2 { margin: 0; }
-.sat-plan-lead { margin-top: .6rem; margin-bottom: 2.25rem; color: rgba(228, 236, 226, .85); font-size: var(--wp--preset--font-size--large); }
+.sat-plan-lead { margin-top: .6rem; margin-bottom: 2.25rem; color: rgba(255, 255, 255, .92); font-size: var(--wp--preset--font-size--large); }
 .sat-plans { gap: 1.1rem; }
 .sat-plan-card {
 	position: relative;
@@ -419,7 +419,7 @@ main.wp-block-group { margin-top: 0 !important; }
 }
 .sat-plan-card::before { content: ""; display: block; width: 2.5rem; height: 3px; background: var(--wp--preset--color--sun); margin-bottom: 1.1rem; }
 .sat-plan-card h3 { margin: 0 0 .4rem; font-size: 1.35rem; }
-.sat-plan-card > p { margin: 0 0 1rem; color: rgba(228, 236, 226, .85); }
+.sat-plan-card > p { margin: 0 0 1rem; color: rgba(255, 255, 255, .92); }
 .sat-plan-list { list-style: none; padding: 0; margin: 0 0 1.25rem; flex: 1; }
 .sat-plan-list li { padding: .45rem 0; border-top: 1px solid rgba(255, 255, 255, .12); font-size: .95rem; color: rgba(255, 255, 255, .92); }
 .sat-plan-cta { margin: 0 !important; }
@@ -463,7 +463,7 @@ h2.wp-block-heading { font-weight: 600; }
 /* cards and photos: hairline gold edge, soft depth */
 .sat-card, .sat-post-card, .ss-result, .ss-search, .ss-room, .ss-review {
 	border-color: var(--wp--preset--color--accent-6) !important;
-	box-shadow: 0 1px 2px rgba(28, 51, 40, .04), 0 18px 40px -28px rgba(28, 51, 40, .35);
+	box-shadow: 0 1px 2px rgba(14, 59, 94, .04), 0 18px 40px -28px rgba(14, 59, 94, .35);
 }
 .sat-card { border-top: 2px solid var(--wp--preset--color--sun) !important; }
 .sat-tile img, .sat-photo img, .sat-post-card .wp-block-post-featured-image img { transition: transform .6s ease, filter .6s ease; }
@@ -652,7 +652,7 @@ h2.wp-block-heading { font-weight: 600; }
 	place-items: center;
 	border-radius: 50%;
 	border: 1px solid rgba(212, 175, 97, .55);
-	color: #D4AF61;
+	color: var(--wp--preset--color--sun);
 }
 .sat-nav .is-menu-open .wp-block-navigation__responsive-container-close svg { width: 18px; height: 18px; fill: currentColor; }
 .sat-nav .is-menu-open .wp-block-navigation__responsive-container-content {
@@ -668,7 +668,7 @@ h2.wp-block-heading { font-weight: 600; }
 	justify-content: space-between;
 	width: 100%;
 	padding: .7rem .1rem !important;
-	border-bottom: 1px solid rgba(228, 236, 226, .12);
+	border-bottom: 1px solid rgba(255, 255, 255, .16);
 	font-size: 1.35rem !important;
 	line-height: 1.15;
 	color: #FFFFFF !important;
@@ -682,9 +682,9 @@ h2.wp-block-heading { font-weight: 600; }
 	transform: none;
 	background: none;
 	font-size: 1.3rem;
-	color: #D4AF61;
+	color: var(--wp--preset--color--sun);
 }
 .sat-nav .is-menu-open .wp-block-navigation-item__content:hover,
-.sat-nav .is-menu-open .wp-block-navigation-item__content:focus-visible { color: #D4AF61 !important; box-shadow: none; }
+.sat-nav .is-menu-open .wp-block-navigation-item__content:focus-visible { color: var(--wp--preset--color--sun) !important; box-shadow: none; }
 /* an extra "Book a stay" menu item from an earlier header version stays hidden */
 .sat-nav .sat-nav-cta { display: none !important; }
